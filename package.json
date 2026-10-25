@@ -1,0 +1,12 @@
+{
+  "name": "gamehub-mini-netlify-full",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "echo GameHub static files ready"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.4"
+  }
+}

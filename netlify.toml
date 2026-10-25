@@ -1,0 +1,7 @@
+[build]
+  publish = "public"
+  command = "echo GameHub frontend ready"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
