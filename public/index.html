@@ -214,10 +214,19 @@ body:not(.access-granted) .language-picker{position:relative;z-index:1001}
    <label class="language-picker access-language-picker" for="language-select-gate"><span aria-hidden="true">🌐</span><select id="language-select-gate" aria-label="Choose website language"><option value="en">English</option><option value="zh">简体中文</option><option value="ms">Bahasa Melayu</option><option value="ta">தமிழ்</option></select></label>
    <div class="access-overline">Welcome to GameHub</div>
    <h2 id="access-title">Choose how to enter.</h2>
-   <p class="access-copy">Use Google, another email when online sign-in is connected, a local username, or play without an account.</p>
+   <p class="access-copy">Sign in with Google or any email address, use a local username, or play without an account.</p>
    <button class="access-button" id="entry-google" type="button" aria-label="Continue with Google"><span style="font-weight:900;font-family:Arial,sans-serif;font-size:20px;color:#4285f4" aria-hidden="true">G</span> Continue with Google</button>
    <button class="access-button secondary" id="entry-email" type="button">✉️ Use another email</button>
-   <div class="access-option-note" id="entry-email-note" hidden>Any email address (Gmail, Outlook, Yahoo, or another provider) can be supported with email-and-password sign-in. Online account sign-in is not connected on this website yet, so this option will not ask for or store your password. You can use a local username or continue as a guest right now.</div>
+   <form class="access-local-form" id="entry-email-form" hidden>
+    <label for="entry-email-address" class="access-info">Email address</label>
+    <input id="entry-email-address" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+    <label for="entry-email-password" class="access-info">Password (at least 6 characters)</label>
+    <input id="entry-email-password" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="Your password" required>
+    <button class="access-button" id="email-signin" type="submit">Sign in with email</button>
+    <button class="access-button secondary" id="email-create" type="button">Create email account</button>
+    <button class="access-button secondary" id="email-reset" type="button">Forgot password?</button>
+    <p class="access-info">Use any email provider. Firebase securely handles the password; this page does not save it. Game saves are still stored in this browser for now.</p>
+   </form>
    <button class="access-button secondary" id="entry-username" type="button">👤 Continue with a local username</button>
    <form class="access-local-form" id="entry-local-form" hidden>
     <label for="entry-local-name" class="access-info">Choose a username (2–20 letters, numbers, spaces, _ or -)</label>
@@ -228,7 +237,7 @@ body:not(.access-granted) .language-picker{position:relative;z-index:1001}
    <div class="access-separator">OR</div>
    <button class="access-button secondary" id="entry-guest" type="button">👾 Continue without an account</button>
    <div class="access-warning" role="note"><b>Guest mode:</b> no account needed. Games you create during a guest session are temporary and may disappear when you reload or close the tab. Download files you want to keep.</div>
-   <p class="access-info">Google and email account sign-in need secure authentication setup first. Username profiles are saved only in this browser. No password is stored by this page.</p>
+   <p class="access-info">Google and email sign-in use Firebase Authentication. Username profiles and game saves remain in this browser; cloud save sync is not set up yet.</p>
    <p id="access-status" role="status" aria-live="polite">Choose an option above. Guest and local username modes work now.</p>
   </div>
  </div>
@@ -448,18 +457,18 @@ body:not(.access-granted) .language-picker{position:relative;z-index:1001}
  <section id="account" class="view">
    <div class="eyebrow">Account options</div><h1 style="margin:9px 0 12px">Your GameHub profile.</h1><p class="muted">Choose Google or email after secure online authentication is connected, or use a local username / guest mode now.</p>
    <div class="row-panels" style="margin-top:23px">
-     <div class="panel account-panel"><span class="account-mark" aria-hidden="true">👤</span><h2 id="auth-title" style="margin:14px 0 7px">Sign-in status</h2><p class="muted small" id="auth-description">Online Google/email accounts are not connected yet.</p>
-       <div class="tip" id="auth-status" role="status" style="margin:20px 0">Use the welcome screen's local username or guest option now. Google and any-email login require a secure authentication provider to be configured.</div>
+     <div class="panel account-panel"><span class="account-mark" aria-hidden="true">👤</span><h2 id="auth-title" style="margin:14px 0 7px">Sign-in status</h2><p class="muted small" id="auth-description">Google and email/password sign-in use Firebase Authentication. Game saves remain browser-local for now.</p>
+       <div class="tip" id="auth-status" role="status" style="margin:20px 0">Not signed in. Use Google or email, or continue as a guest.</div>
        <button class="btn primary" type="button" id="google-login">◉ Try Google sign-in</button>
        <div id="guest-account-note" class="tip" hidden style="margin:15px 0">Guest mode is temporary: download your game files before leaving.</div>
        <button class="btn" type="button" id="google-logout" hidden>Sign out</button>
-       <p class="fine" style="margin-top:18px">Local username profiles are saved in this browser only. Guest sessions are temporary. Online sign-in and cloud sync are not active, and this page will not collect passwords until a secure provider is configured.</p>
+       <p class="fine" style="margin-top:18px">Firebase handles online sign-in. Local username profiles and GameHub game data are still stored in this browser; cloud sync requires a separate database setup.</p>
      </div>
      <div class="panel"><h2>⚙ Online account setup</h2><div class="setup-steps">
-       <div><span>01</span><p>Create a Firebase project and add a <b>Web App</b>.</p></div>
-       <div><span>02</span><p>Enable <b>Google</b> and <b>Email/Password</b> under Authentication → Sign-in method.</p></div>
-       <div><span>03</span><p>Add the Firebase web-app configuration and authentication module to the website.</p></div>
-       <div><span>04</span><p>Add your deployed website domain under Authentication → Settings → <b>Authorized domains</b>.</p></div>
+       <div><span>01</span><p>Firebase web app connected to project <b>little-lock-8331a</b>.</p></div>
+       <div><span>02</span><p><b>Google</b> and <b>Email/Password</b> providers must be enabled in Authentication → Sign-in method.</p></div>
+       <div><span>03</span><p>Authorize the Netlify domain under Authentication → Settings → <b>Authorized domains</b>.</p></div>
+       <div><span>04</span><p>Authentication is for sign-in only; cloud game-save sync is not enabled by this update.</p></div>
      </div><div class="warning-wide" style="margin-top:18px">Username/password accounts also need a secure server-side username lookup. Do not put service-account keys, private API secrets, or account passwords in the website files.</div></div>
    </div>
  </section>
@@ -678,16 +687,19 @@ window.GameHubAccess={
  }
 };
 $('entry-google').addEventListener('click',()=>{
- $('access-status').textContent='Google sign-in is not connected yet. It needs Firebase Authentication setup. No password was requested or stored. You can use a local username or continue without an account now.';
+ if(window.GameHubFirebase)window.GameHubFirebase.signInGoogle();
+ else $('access-status').textContent='Firebase is still loading. Please try again in a moment.';
 });
 $('entry-email').addEventListener('click',()=>{
- $('entry-email-note').hidden=!$('entry-email-note').hidden;
+ const form=$('entry-email-form');
+ form.hidden=!form.hidden;
  $('entry-local-form').hidden=true;
- $('access-status').textContent='Email sign-in is not connected yet. Any email provider can be supported after secure authentication is configured.';
+ if(!form.hidden){$('entry-email-address').focus();$('access-status').textContent='Enter your email and password, or create a new account.';}
+ else $('access-status').textContent='Choose Google, email, local username, or guest mode.';
 });
 $('entry-username').addEventListener('click',()=>{
  $('entry-local-form').hidden=!$('entry-local-form').hidden;
- $('entry-email-note').hidden=true;
+ $('entry-email-form').hidden=true;
  if(!$('entry-local-form').hidden)$('entry-local-name').focus();
  $('access-status').textContent='Local username profiles stay on this browser only; they are not online accounts.';
 });
@@ -703,9 +715,10 @@ $('entry-local-form').addEventListener('submit',event=>{
  grantAccess('local');
  notify('Local profile opened. Saves stay in this browser only.');
 });
-$('entry-guest').addEventListener('click',()=>{reloadSessionData('guest');grantAccess('guest');notify('Guest mode: no account needed. Download created games before leaving.');});
+$('entry-guest').addEventListener('click',()=>{$('entry-email-form').hidden=true;$('entry-local-form').hidden=true;reloadSessionData('guest');grantAccess('guest');notify('Guest mode: no account needed. Download created games before leaving.');});
 $('google-login').addEventListener('click',()=>{
- $('auth-status').textContent='Google sign-in is not connected yet. Firebase Authentication must be configured first. You can use a local username or guest mode now.';
+ if(window.GameHubFirebase)window.GameHubFirebase.signInGoogle();
+ else $('auth-status').textContent='Firebase is still loading. Please try again in a moment.';
 });
 
 function formatBytes(b){if(b>=GiB)return (b/GiB).toFixed(b<10*GiB?2:1)+' GiB';if(b>=MiB)return (b/MiB).toFixed(b<10*MiB?2:1)+' MiB';if(b>=KiB)return (b/KiB).toFixed(1)+' KiB';return Math.round(b)+' B'}
@@ -1226,4 +1239,206 @@ $('language-select-gate').addEventListener('change',()=>setGameHubLanguage($('la
 
 bindAppearance();applyTheme();rerender();renderWidgets();updateCreatorPreview();go(['dashboard','store','creator','library','storage','editions','device','account','settings','customize'].includes(location.hash.slice(1))?location.hash.slice(1):'dashboard');
 </script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAPTW232R6axWL7CWuJHbcQ4eoQTlgYWHE",
+  authDomain: "little-lock-8331a.firebaseapp.com",
+  projectId: "little-lock-8331a",
+  storageBucket: "little-lock-8331a.firebasestorage.app",
+  messagingSenderId: "459844143992",
+  appId: "1:459844143992:web:28ac1578e7986ceadc168d",
+  measurementId: "G-LRX2XJ28J2"
+};
+
+const byId = id => document.getElementById(id);
+let auth = null;
+let googleProvider = null;
+
+function showStatus(message) {
+  if (window.GameHubAccess && typeof window.GameHubAccess.authStatus === 'function') {
+    window.GameHubAccess.authStatus(message);
+  }
+  const accountStatus = byId('auth-status');
+  if (accountStatus) accountStatus.textContent = message;
+}
+
+function friendlyError(error) {
+  const code = error && error.code ? error.code : '';
+  const messages = {
+    'auth/unauthorized-domain': 'This website is not authorized in Firebase. Check Authentication → Settings → Authorized domains and add fanciful-churros-486d77.netlify.app.',
+    'auth/popup-blocked': 'Chrome blocked the Google sign-in popup. Allow pop-ups for this website, then try again.',
+    'auth/popup-closed-by-user': 'The Google sign-in window was closed before sign-in finished. Try again when ready.',
+    'auth/cancelled-popup-request': 'Another sign-in window was already opening. Please try again.',
+    'auth/operation-not-allowed': 'This sign-in method is disabled in Firebase Authentication → Sign-in method.',
+    'auth/email-already-in-use': 'An account already exists for this email. Try signing in instead.',
+    'auth/invalid-email': 'Please enter a valid email address.',
+    'auth/invalid-credential': 'That email or password is incorrect. Check them and try again.',
+    'auth/user-disabled': 'This account has been disabled. Check the Firebase Authentication Users page.',
+    'auth/weak-password': 'Choose a password with at least 6 characters.',
+    'auth/missing-password': 'Enter your password to continue.',
+    'auth/too-many-requests': 'Firebase temporarily limited sign-in attempts. Wait a little and try again.',
+    'auth/network-request-failed': 'Could not reach Firebase. Check your internet connection and try again.',
+    'auth/invalid-api-key': 'The Firebase web-app API key was rejected. Check the web app configuration in Firebase Project settings.'
+  };
+  return messages[code] || 'Sign-in did not finish (' + (code || 'unknown error') + '). Check the Firebase setup and try again.';
+}
+
+function setBusy(busy) {
+  ['entry-google','entry-email','entry-username','entry-guest','google-login','email-signin','email-create','email-reset','google-logout'].forEach(id => {
+    const element = byId(id);
+    if (element) element.disabled = !!busy;
+  });
+}
+
+async function signInGoogle() {
+  if (!auth || !googleProvider) {
+    showStatus('Firebase did not finish loading. Refresh the page and try again.');
+    return;
+  }
+  if (window.GameHubAccess && !window.GameHubAccess.canSignIn()) return;
+  setBusy(true);
+  showStatus('Opening Google sign-in…');
+  try {
+    await signInWithPopup(auth, googleProvider);
+  } catch (error) {
+    showStatus(friendlyError(error));
+  } finally {
+    setBusy(false);
+  }
+}
+
+async function signInEmail(createAccount) {
+  if (!auth) {
+    showStatus('Firebase did not finish loading. Refresh the page and try again.');
+    return;
+  }
+  if (window.GameHubAccess && !window.GameHubAccess.canSignIn()) return;
+  const email = (byId('entry-email-address').value || '').trim();
+  const password = byId('entry-email-password').value || '';
+  if (!email) {
+    showStatus('Enter your email address first.');
+    byId('entry-email-address').focus();
+    return;
+  }
+  if (!password || password.length < 6) {
+    showStatus('Enter a password with at least 6 characters.');
+    byId('entry-email-password').focus();
+    return;
+  }
+  setBusy(true);
+  showStatus(createAccount ? 'Creating your Firebase account…' : 'Signing in with email…');
+  try {
+    if (createAccount) await createUserWithEmailAndPassword(auth, email, password);
+    else await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    showStatus(friendlyError(error));
+  } finally {
+    setBusy(false);
+  }
+}
+
+async function resetEmailPassword() {
+  if (!auth) {
+    showStatus('Firebase did not finish loading. Refresh the page and try again.');
+    return;
+  }
+  const email = (byId('entry-email-address').value || '').trim();
+  if (!email) {
+    showStatus('Enter your email address first, then choose Forgot password.');
+    byId('entry-email-address').focus();
+    return;
+  }
+  setBusy(true);
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showStatus('Password reset email requested. Check your inbox and spam folder.');
+  } catch (error) {
+    showStatus(friendlyError(error));
+  } finally {
+    setBusy(false);
+  }
+}
+
+window.GameHubFirebase = { signInGoogle, signInEmail, resetEmailPassword };
+
+byId('entry-email-form').addEventListener('submit', event => {
+  event.preventDefault();
+  signInEmail(false);
+});
+byId('email-create').addEventListener('click', () => signInEmail(true));
+byId('email-reset').addEventListener('click', resetEmailPassword);
+byId('google-logout').addEventListener('click', async () => {
+  if (!auth) return;
+  setBusy(true);
+  try {
+    await signOut(auth);
+    showStatus('Signed out. You can sign in again or continue as a guest.');
+  } catch (error) {
+    showStatus(friendlyError(error));
+  } finally {
+    setBusy(false);
+  }
+});
+
+try {
+  const app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  auth.languageCode = document.documentElement.lang || 'en';
+  googleProvider = new GoogleAuthProvider();
+  googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+  if (window.GameHubAccess && typeof window.GameHubAccess.ready === 'function') {
+    window.GameHubAccess.ready();
+  }
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      const label = user.displayName || user.email || 'GameHub account';
+      byId('auth-title').textContent = 'Signed in';
+      byId('auth-description').textContent = 'Signed in as ' + label + '. Game saves remain in this browser for now.';
+      byId('auth-status').textContent = 'Firebase Authentication is connected for this account.';
+      byId('google-login').textContent = '✓ Signed in';
+      byId('google-logout').hidden = false;
+      if (window.GameHubAccess && typeof window.GameHubAccess.signedIn === 'function') {
+        window.GameHubAccess.signedIn(user);
+      }
+    } else {
+      byId('auth-title').textContent = 'Sign-in status';
+      byId('auth-description').textContent = 'Use Google or email/password. Game saves remain browser-local for now.';
+      byId('auth-status').textContent = 'Not signed in. Use Google or email, or continue as a guest.';
+      byId('google-login').textContent = '◉ Try Google sign-in';
+      byId('google-logout').hidden = true;
+      if (window.GameHubAccess && typeof window.GameHubAccess.signedOut === 'function') {
+        window.GameHubAccess.signedOut();
+      }
+    }
+  }, error => {
+    const message = friendlyError(error);
+    showStatus(message);
+    if (window.GameHubAccess && typeof window.GameHubAccess.error === 'function') {
+      window.GameHubAccess.error(message);
+    }
+  });
+} catch (error) {
+  const message = 'Firebase could not initialize. Check the web app configuration and internet connection. ' + friendlyError(error);
+  showStatus(message);
+  if (window.GameHubAccess && typeof window.GameHubAccess.error === 'function') {
+    window.GameHubAccess.error(message);
+  }
+}
+</script>
+
 </body></html>
