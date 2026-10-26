@@ -128,6 +128,11 @@ body:not(.access-granted) .app{display:none}
 .access-warning b{color:#ffe0a0}
 .access-info{font-size:11px;color:#95a9c5;line-height:1.6}
 #access-status{min-height:16px;font-size:12px;color:#a5bcef;line-height:1.6}
+.access-option-note{border:1px solid #354964;background:#17243a;border-radius:12px;padding:13px;color:#b8c9e0;font-size:12px;line-height:1.65}
+.access-local-form{display:flex;gap:9px;flex-direction:column}
+.access-local-form input{width:100%;min-height:46px;border:1px solid #425878;border-radius:11px;padding:12px 13px;background:#0c1628;color:#f5f8ff}
+.access-local-form .access-button{min-height:45px}
+.access-local-form[hidden],.access-option-note[hidden]{display:none!important}
 .guest-banner{display:none;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;margin-bottom:19px;background:#382b26;color:#ffe1b5;border:1px solid #73573e;border-radius:13px;font-size:12px;line-height:1.55}
 .guest-banner strong{color:#ffe6b3}
 .guest-banner .btn{flex:none;color:inherit}
@@ -209,13 +214,22 @@ body:not(.access-granted) .language-picker{position:relative;z-index:1001}
    <label class="language-picker access-language-picker" for="language-select-gate"><span aria-hidden="true">🌐</span><select id="language-select-gate" aria-label="Choose website language"><option value="en">English</option><option value="zh">简体中文</option><option value="ms">Bahasa Melayu</option><option value="ta">தமிழ்</option></select></label>
    <div class="access-overline">Welcome to GameHub</div>
    <h2 id="access-title">Choose how to enter.</h2>
-   <p class="access-copy">Sign in with Google to use your existing GameHub browser saves, or explore without an account.</p>
-   <button class="access-button" id="entry-google" type="button" disabled aria-label="Continue with Google"><span style="font-weight:900;font-family:Arial,sans-serif;font-size:20px;color:#4285f4" aria-hidden="true">G</span> Continue with Google</button>
+   <p class="access-copy">Use Google, another email when online sign-in is connected, a local username, or play without an account.</p>
+   <button class="access-button" id="entry-google" type="button" aria-label="Continue with Google"><span style="font-weight:900;font-family:Arial,sans-serif;font-size:20px;color:#4285f4" aria-hidden="true">G</span> Continue with Google</button>
+   <button class="access-button secondary" id="entry-email" type="button">✉️ Use another email</button>
+   <div class="access-option-note" id="entry-email-note" hidden>Any email address (Gmail, Outlook, Yahoo, or another provider) can be supported with email-and-password sign-in. Online account sign-in is not connected on this website yet, so this option will not ask for or store your password. You can use a local username or continue as a guest right now.</div>
+   <button class="access-button secondary" id="entry-username" type="button">👤 Continue with a local username</button>
+   <form class="access-local-form" id="entry-local-form" hidden>
+    <label for="entry-local-name" class="access-info">Choose a username (2–20 letters, numbers, spaces, _ or -)</label>
+    <input id="entry-local-name" name="username" type="text" minlength="2" maxlength="20" autocomplete="nickname" placeholder="Your username" required pattern="[A-Za-z0-9 _-]{2,20}">
+    <button class="access-button" type="submit">Continue with username</button>
+    <p class="access-info">This creates a local profile on this browser only. It does not sync across devices and is not a secure online account.</p>
+   </form>
    <div class="access-separator">OR</div>
-   <button class="access-button secondary" id="entry-guest" type="button">👾 Continue as Guest</button>
-   <div class="access-warning" role="note"><b>Guest warning:</b> Games you create and changes you make as a guest are temporary and may disappear when you reload, close the tab, or switch accounts. Download your game files if you want to keep them.</div>
-   <p class="access-info">Important: Google sign-in is working toward account features, but cloud game backup is <b>not enabled yet</b>. Signed-in games are still saved only in this browser, not automatically to Google.</p>
-   <p id="access-status" role="status" aria-live="polite">Checking Google sign-in…</p>
+   <button class="access-button secondary" id="entry-guest" type="button">👾 Continue without an account</button>
+   <div class="access-warning" role="note"><b>Guest mode:</b> no account needed. Games you create during a guest session are temporary and may disappear when you reload or close the tab. Download files you want to keep.</div>
+   <p class="access-info">Google and email account sign-in need secure authentication setup first. Username profiles are saved only in this browser. No password is stored by this page.</p>
+   <p id="access-status" role="status" aria-live="polite">Choose an option above. Guest and local username modes work now.</p>
   </div>
  </div>
 </div>
@@ -248,7 +262,7 @@ body:not(.access-granted) .language-picker{position:relative;z-index:1001}
 </aside>
 <main class="main">
  <div class="guest-banner" id="guest-banner" role="status"><div><strong>👾 Guest session — not backed up.</strong> Your creations and changes are temporary. Download game files before leaving.</div><button class="btn sm" data-go="account">Sign in</button></div>
- <header class="topbar"><div style="display:flex;gap:12px;align-items:center"><button id="mobile-menu" class="menu-button" aria-label="Open menu">☰</button><span class="breadcrumbs">GAMEHUB <span style="margin:0 8px">/</span> <strong id="crumb">Dashboard</strong></span></div><div class="top-pills"><label class="language-picker" for="language-select"><span aria-hidden="true">🌐</span><select id="language-select" aria-label="Choose website language"><option value="en">English</option><option value="zh">简体中文</option><option value="ms">Bahasa Melayu</option><option value="ta">தமிழ்</option></select></label><span class="pill">ESP32 GAME BOY</span><span class="pill demo">● DEVICE OFFLINE</span><button id="account-quick" class="btn sm" data-go="account">◉ Google sign-in</button></div></header>
+ <header class="topbar"><div style="display:flex;gap:12px;align-items:center"><button id="mobile-menu" class="menu-button" aria-label="Open menu">☰</button><span class="breadcrumbs">GAMEHUB <span style="margin:0 8px">/</span> <strong id="crumb">Dashboard</strong></span></div><div class="top-pills"><label class="language-picker" for="language-select"><span aria-hidden="true">🌐</span><select id="language-select" aria-label="Choose website language"><option value="en">English</option><option value="zh">简体中文</option><option value="ms">Bahasa Melayu</option><option value="ta">தமிழ்</option></select></label><span class="pill">ESP32 GAME BOY</span><span class="pill demo">● DEVICE OFFLINE</span><button id="account-quick" class="btn sm" data-go="account">◉ Account options</button></div></header>
  <section id="dashboard" class="view">
   <div class="hero"><div><span class="eyebrow">Welcome to your pocket arcade</span><h1>More games.<br><span style="color:#60a5fa">More adventures.</span></h1><p>Browse 500 playable game variations, customise your dashboard, and export GameHub engine templates. Import files and transfer them to the ESP32 over USB from Upload Games.</p><div class="btn-row"><button class="btn primary" data-go="store">Explore game store →</button><button class="btn" data-go="creator">✦ Create your own game</button><button class="btn" data-go="upload">⬆ Upload a game</button><button class="btn" data-go="storage">Check storage</button></div></div><span class="hero-art" aria-hidden="true">🕹️</span></div>
   <div class="panel" style="margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap"><div><strong>🖥️ Your console edition: <span id="dashboard-edition">OLED Edition</span></strong><p class="muted small" style="margin-top:6px" id="dashboard-edition-info">128 × 64 · no touch · 8 buttons · Snake + Pong firmware</p></div><button class="btn sm primary" data-go="editions">Choose edition →</button></div>
@@ -432,21 +446,21 @@ body:not(.access-granted) .language-picker{position:relative;z-index:1001}
  <section id="device" class="view"><div class="eyebrow">Your Handheld</div><h1 style="margin:9px 0 12px">ESP32 Game Boy.</h1><p class="muted">Hardware setup and the new browser-to-USB file uploader.</p><div class="row-panels"><div class="panel"><div class="line-between"><h2>Connection</h2><span class="status-tag">OFFLINE</span></div><p style="font-size:54px;margin:20px 0 8px">🎮</p><h3>Not connected yet</h3><p class="muted small" style="margin:11px 0 17px">GameHub currently has no firmware endpoint to communicate with your ESP32. We won't pretend a game was installed.</p><button class="btn primary" data-go="upload">Open USB game uploader →</button><p class="fine" style="margin-top:10px">Wireless upload is still a future feature; USB transfer is available from Upload Games.</p></div><div class="panel"><h2>Our planned hardware</h2><div class="mini-list"><div class="mini-game"><span class="mini-icon">🧠</span><div><div class="mini-name">ESP32 DevKit</div><div class="mini-sub">Board model and flash size to confirm</div></div></div><div class="mini-game"><span class="mini-icon">🖥️</span><div><div class="mini-name">OLED 128×64 or 2.8-inch TFT</div><div class="mini-sub">Choose your edition under Screen Editions</div></div></div><div class="mini-game"><span class="mini-icon">🎛️</span><div><div class="mini-name">8 breadboard buttons</div><div class="mini-sub">Directional controls, A, B, Start, Select</div></div></div><div class="mini-game"><span class="mini-icon">💾</span><div><div class="mini-name">microSD reader (optional)</div><div class="mini-sub">4-pin OLED has none; TFT slot needs wiring checks</div></div></div></div></div></div><div class="panel" style="margin-top:18px"><h2>Planned game upload workflow</h2><p class="muted small" style="margin:12px 0">Browser → USB serial → MicroPython filesystem (/games/) → compatible launcher → game. Wi-Fi and microSD uploads still need separate firmware support.</p><div class="tip">The current downloads are starter source modules, not classic Game Boy ROMs. The USB uploader copies files into /games/; a compatible launcher is still needed to run them. Loading .gb/.gbc ROMs requires a separate emulator.</div></div></section>
 
  <section id="account" class="view">
-   <div class="eyebrow">Google Authentication</div><h1 style="margin:9px 0 12px">Your GameHub account.</h1><p class="muted">Sign in with Google using Firebase Authentication. You can browse and create local demos without signing in.</p>
+   <div class="eyebrow">Account options</div><h1 style="margin:9px 0 12px">Your GameHub profile.</h1><p class="muted">Choose Google or email after secure online authentication is connected, or use a local username / guest mode now.</p>
    <div class="row-panels" style="margin-top:23px">
-     <div class="panel account-panel"><span class="account-mark" aria-hidden="true">G</span><h2 id="auth-title" style="margin:14px 0 7px">Google sign-in</h2><p class="muted small" id="auth-description">To activate real sign-in, connect your Firebase web app.</p>
-       <div class="tip" id="auth-status" role="status" style="margin:20px 0">Firebase configuration needed.</div>
-       <button class="btn primary" type="button" id="google-login">◉ Continue with Google</button>
-       <div id="guest-account-note" class="tip" hidden style="margin:15px 0">Guest mode is temporary: download your game files before signing in. Guest work does not transfer into your existing browser saves automatically.</div>
+     <div class="panel account-panel"><span class="account-mark" aria-hidden="true">👤</span><h2 id="auth-title" style="margin:14px 0 7px">Sign-in status</h2><p class="muted small" id="auth-description">Online Google/email accounts are not connected yet.</p>
+       <div class="tip" id="auth-status" role="status" style="margin:20px 0">Use the welcome screen's local username or guest option now. Google and any-email login require a secure authentication provider to be configured.</div>
+       <button class="btn primary" type="button" id="google-login">◉ Try Google sign-in</button>
+       <div id="guest-account-note" class="tip" hidden style="margin:15px 0">Guest mode is temporary: download your game files before leaving.</div>
        <button class="btn" type="button" id="google-logout" hidden>Sign out</button>
-       <p class="fine" style="margin-top:18px">Google sign-in does not automatically back up games to the cloud. Signed-in games remain saved in this browser only. Guest creations stay in memory and can disappear when the page reloads.</p>
+       <p class="fine" style="margin-top:18px">Local username profiles are saved in this browser only. Guest sessions are temporary. Online sign-in and cloud sync are not active, and this page will not collect passwords until a secure provider is configured.</p>
      </div>
-     <div class="panel"><h2>⚙ Enable Google login</h2><div class="setup-steps">
+     <div class="panel"><h2>⚙ Online account setup</h2><div class="setup-steps">
        <div><span>01</span><p>Create a Firebase project and add a <b>Web App</b>.</p></div>
-       <div><span>02</span><p>Firebase Console → Authentication → Sign-in method → enable <b>Google</b>.</p></div>
-       <div><span>03</span><p>Firebase web-app configuration is already included in <code>firebase-config.js</code>.</p></div>
+       <div><span>02</span><p>Enable <b>Google</b> and <b>Email/Password</b> under Authentication → Sign-in method.</p></div>
+       <div><span>03</span><p>Add the Firebase web-app configuration and authentication module to the website.</p></div>
        <div><span>04</span><p>Add your deployed website domain under Authentication → Settings → <b>Authorized domains</b>.</p></div>
-     </div><div class="warning-wide" style="margin-top:18px">Do not put service-account keys, private API secrets or a Google account password in the website files.</div></div>
+     </div><div class="warning-wide" style="margin-top:18px">Username/password accounts also need a secure server-side username lookup. Do not put service-account keys, private API secrets, or account passwords in the website files.</div></div>
    </div>
  </section>
  <section id="settings" class="view" aria-labelledby="settings-title">
@@ -547,7 +561,6 @@ body:not(.access-granted) .language-picker{position:relative;z-index:1001}
 @media(max-width:900px){.studio-layout{grid-template-columns:1fr}}
 @media(max-width:600px){.widget-grid{grid-template-columns:1fr}.gh-widget.wide{grid-column:span 1}}
 </style>
-<script src="firebase-config.js"></script>
 <script>
 const CATALOG = [{"id": "snake", "name": "Snake Classic", "mode": "snake", "variant": false, "emoji": "🐍", "category": "Arcade", "description": "Guide the snake and collect snacks.", "color": "lime", "bytes": 306, "download": "games/snake.py"}, {"id": "snake_turbo", "name": "Snake Turbo", "mode": "snake", "variant": true, "emoji": "⚡", "category": "Arcade", "description": "Faster movement, harder turns.", "color": "green", "bytes": 303, "download": "games/snake_turbo.py"}, {"id": "pong", "name": "Pong Solo", "mode": "pong", "variant": false, "emoji": "🏓", "category": "Sports", "description": "Keep the ball alive with your paddle.", "color": "cyan", "bytes": 301, "download": "games/pong.py"}, {"id": "pong_blitz", "name": "Pong Blitz", "mode": "pong", "variant": true, "emoji": "💥", "category": "Sports", "description": "Quick paddle action and faster bounces.", "color": "blue", "bytes": 301, "download": "games/pong_blitz.py"}, {"id": "brick_breaker", "name": "Brick Breaker", "mode": "breaker", "variant": false, "emoji": "🧱", "category": "Puzzle", "description": "Break every block with a bouncing ball.", "color": "orange", "bytes": 308, "download": "games/brick_breaker.py"}, {"id": "neon_breaker", "name": "Neon Breaker", "mode": "breaker", "variant": true, "emoji": "🌈", "category": "Puzzle", "description": "Extra rows of blocks to smash.", "color": "violet", "bytes": 306, "download": "games/neon_breaker.py"}, {"id": "meteor_dodge", "name": "Meteor Dodge", "mode": "dodge", "variant": false, "emoji": "☄️", "category": "Action", "description": "Dodge incoming falling meteors.", "color": "red", "bytes": 305, "download": "games/meteor_dodge.py"}, {"id": "meteor_storm", "name": "Meteor Storm", "mode": "dodge", "variant": true, "emoji": "🌪️", "category": "Action", "description": "More meteors fall at once.", "color": "rose", "bytes": 304, "download": "games/meteor_storm.py"}, {"id": "space_blaster", "name": "Space Blaster", "mode": "blaster", "variant": false, "emoji": "🚀", "category": "Action", "description": "Fire at alien targets.", "color": "indigo", "bytes": 308, "download": "games/space_blaster.py"}, {"id": "space_blitz", "name": "Space Blitz", "mode": "blaster", "variant": true, "emoji": "👾", "category": "Action", "description": "Enemies fall faster as you blast.", "color": "purple", "bytes": 305, "download": "games/space_blitz.py"}, {"id": "star_collector", "name": "Star Collector", "mode": "collector", "variant": false, "emoji": "⭐", "category": "Adventure", "description": "Explore the playfield collecting stars.", "color": "yellow", "bytes": 311, "download": "games/star_collector.py"}, {"id": "star_sprint", "name": "Star Sprint", "mode": "collector", "variant": true, "emoji": "🏆", "category": "Adventure", "description": "Collect as many stars as possible before time runs out.", "color": "amber", "bytes": 307, "download": "games/star_sprint.py"}];
 
@@ -598,12 +611,16 @@ if(!Array.isArray(state.installed))state.installed=[];
 state.installed=state.installed.filter(x=>x && games[x.id] && ['flash','sd'].includes(x.target)).slice(0,100);
 
 let sessionKind='pending';
-let signedInSnapshot=JSON.stringify(state); // old browser data preserved for existing users
+let localProfileName='';
+const localProfileKey=name=>'gamehub-local-profile-v1:'+encodeURIComponent(String(name||'').trim().toLowerCase());
+let signedInSnapshot=JSON.stringify(state); // preserve any existing browser data
 function save(){
  try{localStorage.setItem(UI_PREF_KEY,JSON.stringify({language:state.language,roundness:state.roundness,theme:state.theme,reduced:state.reduced,font:state.font,fontScale:state.fontScale,customColors:state.customColors}))}catch(e){}
  if(sessionKind==='account'){
   signedInSnapshot=JSON.stringify(state);
   try{localStorage.setItem(KEY,signedInSnapshot)}catch(e){}
+ } else if(sessionKind==='local' && localProfileName){
+  try{localStorage.setItem(localProfileKey(localProfileName),JSON.stringify(state))}catch(e){}
  }
  // Guest game/library data remains temporary; appearance and language preferences persist locally.
 }
@@ -613,6 +630,8 @@ function reloadSessionData(mode){
  let next;
  if(mode==='account'){
   try{next=JSON.parse(signedInSnapshot)}catch(e){next=null}
+ } else if(mode==='local' && localProfileName){
+  try{next=JSON.parse(localStorage.getItem(localProfileKey(localProfileName))||'null')}catch(e){next=null}
  } else next=null;
  state={...INITIAL,customColors:{...INITIAL.customColors},...(next && typeof next==='object'?next:{}),...readUIPrefs()};
  if(!Array.isArray(state.customGames))state.customGames=[];
@@ -626,17 +645,19 @@ function grantAccess(mode){
  sessionKind=mode;
  document.body.classList.add('access-granted');
  document.body.classList.toggle('guest-mode',mode==='guest');
+ document.body.classList.toggle('local-mode',mode==='local');
  const screen=$('access-screen');screen.hidden=true;screen.setAttribute('aria-hidden','true');
  $('guest-account-note').hidden=mode!=='guest';
  if(mode==='guest')$('account-quick').textContent='👾 Guest · Sign in';
+ else if(mode==='local')$('account-quick').textContent='👤 '+localProfileName;
  go('dashboard');
 }
 function returnToGate(message){
  if(sessionKind==='guest')return; // Firebase's initial signed-out check must not dismiss guest choice.
  sessionKind='pending';
- document.body.classList.remove('access-granted','guest-mode');
+ document.body.classList.remove('access-granted','guest-mode','local-mode');
  $('access-screen').hidden=false;$('access-screen').removeAttribute('aria-hidden');
- $('access-status').textContent=message||'Sign in with Google, or continue as a guest.';
+ $('access-status').textContent=message||'Choose Google, email, local username, or guest mode.';
  $('entry-google').focus({preventScroll:true});
 }
 window.GameHubAccess={
@@ -657,11 +678,35 @@ window.GameHubAccess={
  }
 };
 $('entry-google').addEventListener('click',()=>{
- if($('entry-google').disabled)return;
- $('access-status').textContent='Opening Google sign-in…';
- $('google-login').click();
+ $('access-status').textContent='Google sign-in is not connected yet. It needs Firebase Authentication setup. No password was requested or stored. You can use a local username or continue without an account now.';
 });
-$('entry-guest').addEventListener('click',()=>{reloadSessionData('guest');grantAccess('guest');notify('Guest mode: download created games before leaving. Nothing is backed up.');});
+$('entry-email').addEventListener('click',()=>{
+ $('entry-email-note').hidden=!$('entry-email-note').hidden;
+ $('entry-local-form').hidden=true;
+ $('access-status').textContent='Email sign-in is not connected yet. Any email provider can be supported after secure authentication is configured.';
+});
+$('entry-username').addEventListener('click',()=>{
+ $('entry-local-form').hidden=!$('entry-local-form').hidden;
+ $('entry-email-note').hidden=true;
+ if(!$('entry-local-form').hidden)$('entry-local-name').focus();
+ $('access-status').textContent='Local username profiles stay on this browser only; they are not online accounts.';
+});
+$('entry-local-form').addEventListener('submit',event=>{
+ event.preventDefault();
+ const name=$('entry-local-name').value.trim().replace(/\s+/g,' ');
+ if(!/^[A-Za-z0-9 _-]{2,20}$/.test(name)){
+  $('access-status').textContent='Use 2–20 letters, numbers, spaces, underscores or hyphens.';
+  return;
+ }
+ localProfileName=name;
+ reloadSessionData('local');
+ grantAccess('local');
+ notify('Local profile opened. Saves stay in this browser only.');
+});
+$('entry-guest').addEventListener('click',()=>{reloadSessionData('guest');grantAccess('guest');notify('Guest mode: no account needed. Download created games before leaving.');});
+$('google-login').addEventListener('click',()=>{
+ $('auth-status').textContent='Google sign-in is not connected yet. Firebase Authentication must be configured first. You can use a local username or guest mode now.';
+});
 
 function formatBytes(b){if(b>=GiB)return (b/GiB).toFixed(b<10*GiB?2:1)+' GiB';if(b>=MiB)return (b/MiB).toFixed(b<10*MiB?2:1)+' MiB';if(b>=KiB)return (b/KiB).toFixed(1)+' KiB';return Math.round(b)+' B'}
 function cleanPct(b,total){return Math.min(100,Math.max(0,total?100*b/total:0))}
@@ -1181,5 +1226,4 @@ $('language-select-gate').addEventListener('change',()=>setGameHubLanguage($('la
 
 bindAppearance();applyTheme();rerender();renderWidgets();updateCreatorPreview();go(['dashboard','store','creator','library','storage','editions','device','account','settings','customize'].includes(location.hash.slice(1))?location.hash.slice(1):'dashboard');
 </script>
-<script type="module" src="auth.js"></script>
 </body></html>
