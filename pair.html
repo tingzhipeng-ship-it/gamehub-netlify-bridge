@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; base-uri 'self'; form-action 'self'"/>
+<title>GameHub Mini — Pair ESP32</title><link rel="stylesheet" href="pair.css"/></head>
+<body><main class="wrap">
+<header><a class="back" href="/">← GameHub Mini</a><span class="pill" id="indicator">● Not paired</span></header>
+<section class="hero"><span class="eyebrow">YOUR GAME BOY, YOUR CONTROL</span>
+<h1>Pair your <em>GameHub Mini.</em></h1>
+<p>Connect your ESP32-WROOM-32 to the internet, then enter the six-digit PIN shown on its display. Pair from your phone or laptop. Select your screen version below.</p></section>
+<section class="panel" id="choosepanel"><div class="step">01 / CHOOSE YOUR DISPLAY</div>
+<h2>Which Game Boy are you using?</h2>
+<div class="screen-options" role="group" aria-label="Display type">
+<button type="button" class="choice selected" data-display="oled" aria-pressed="true">
+<span class="screen-emoji">▣</span><strong>1.3-inch OLED</strong><small>SH1106 · 128×64 · physical buttons</small></button>
+<button type="button" class="choice" data-display="tft" aria-pressed="false">
+<span class="screen-emoji">▤</span><strong>2.8-inch touchscreen</strong><small>Colour TFT · touch firmware pending</small></button>
+</div>
+<p class="hint" id="selectionnote">1.3-inch OLED selected. Downloaded games use its monochrome layout.</p></section>
+<section class="panel" id="pairpanel"><div class="step">02 / CONNECT DEVICE</div><h2>Enter your six-digit PIN</h2>
+<p class="hint">Enter the PIN shown on your ESP32 OLED. Make sure the ESP32 is connected to Wi-Fi and its display says “Bridge connected”. The PIN expires after 10 minutes.</p>
+<form id="pairform"><label for="pin">Code from the OLED</label>
+<div class="inputrow"><input id="pin" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autocomplete="one-time-code" required /><button class="primary" id="pairbtn" type="submit">Pair device →</button></div></form>
+<p class="hint">Your ESP32 and phone/laptop need internet to reach the Netlify bridge. If pairing says the bridge is unavailable, the Netlify Function and Blobs store must be deployed.</p></section>
+<section class="panel hidden" id="controlpanel"><div class="topline"><div><div class="step">03 / REMOTE CONTROL</div><h2>ESP32 Controller</h2></div><button class="secondary" id="unpair">Forget this browser</button></div>
+<div class="device"><span class="orb" id="orb"></span><div><strong id="status">Checking…</strong><small id="detail">SH1106 • 128×64 OLED</small></div></div>
+<div class="buttons"><div class="dpad"><button data-key="UP" aria-label="Up">↑</button><div><button data-key="LEFT" aria-label="Left">←</button><button data-key="DOWN" aria-label="Down">↓</button><button data-key="RIGHT" aria-label="Right">→</button></div></div>
+<div class="ab"><button data-key="B">B</button><button data-key="A">A</button></div></div>
+<div class="system"><button data-key="SELECT">SELECT</button><button data-key="START">START</button></div>
+<p class="hint">Commands are best-effort and may take a few seconds. Fast action games play best using physical buttons on the console. The game downloads below save files to your browser; direct microSD installation is not enabled yet.</p></section>
+<section class="panel" id="library"><div class="step">04 / GAME LIBRARY</div>
+<h2>Download more games</h2>
+<p class="hint" id="librarydetail">Optional MicroPython game modules for future firmware expansion. The current all-in-one Snake/Pong firmware cannot load these modules until the game loader is added.</p>
+<div class="game-grid">
+<article class="game-card"><span class="game-graphic">●</span><strong>CATCH</strong><small>Catch the falling dots with your paddle.</small>
+<a class="primary game-download" href="games/gh_catch.py" download="gh_catch.py">Download Game ↓</a></article>
+<article class="game-card"><span class="game-graphic">◆</span><strong>DODGE</strong><small>Move away from falling obstacles.</small>
+<a class="primary game-download" href="games/gh_dodge.py" download="gh_dodge.py">Download Game ↓</a></article>
+</div>
+<p class="hint">Snake and Pong are already built into both firmware versions. The Catch and Dodge files need a compatible game-loader firmware before they will run. The 2.8-inch screen controller is still unverified. The microSD reader and touch controls need your exact screen's model and wiring before they can be added.</p>
+<p class="pending" id="transfernote">MicroSD transfer: not yet available. For now, download onto your phone/laptop and upload the .py file to ESP32 through ESP IDE.</p></section>
+<div id="notice" role="status" aria-live="polite"></div>
+<footer>GameHub Mini · ESP32 online pairing · <a href="/">Return to dashboard</a></footer>
+</main><script src="pair.js" defer></script></body></html>
