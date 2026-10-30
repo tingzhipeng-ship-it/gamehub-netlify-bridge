@@ -124,7 +124,36 @@
           <div class="hardware-grid"><article class="panel-card"><span class="hardware-icon">🧠</span><h3>ESP32 DevKit</h3><p>ESP32-WROOM-32 controller. USB data cable required for direct USB control.</p></article><article class="panel-card"><span class="hardware-icon">🖥</span><h3>OLED 128×64</h3><p>SH1106 I2C profile with physical buttons.</p></article><article class="panel-card"><span class="hardware-icon">🎛</span><h3>8 buttons</h3><p>UP, DOWN, LEFT, RIGHT, A, B, START and SELECT.</p></article><article class="panel-card"><span class="hardware-icon">🔋</span><h3>1S analog battery reader</h3><p>GPIO34 analog input. Voltage divider must be calibrated; never allow more than 3.3 V at the ESP32 pin.</p></article></div><article class="panel-card wiring-card"><div class="step-label">HARDWARE WIRING</div><h3>Choose your screen wiring diagram</h3><div class="wiring-links"><a href="wiring-oled.svg" target="_blank" rel="noopener">Open SH1106 OLED wiring diagram ↗</a><a href="wiring-tft.svg" target="_blank" rel="noopener">Open ILI9341 + touch wiring diagram ↗</a></div><p class="muted">The TFT pin map is a suggested layout for an ILI9341 + XPT2046 module. Verify your breakout labels before wiring.</p></article>
         </section>
 
-        <section class="view" id="view-account"><div class="page-heading"><div><div class="eyebrow">PLAYER PROFILE</div><h1>Account</h1><p class="muted">Your local GameHub profile on this browser.</p></div></div><div class="panel-card account-panel"><div class="avatar large">ZP</div><div><h2>Arcade Player</h2><p class="muted">Guest profile · saved locally on this browser</p><p class="muted">Google sign-in is not configured in this rebuilt static edition, so no fake sign-in is shown.</p></div></div></section>
+        <section class="view" id="view-account">
+          <div class="page-heading"><div><div class="eyebrow">PLAYER PROFILE</div><h1>Account</h1><p class="muted">Manage the player name and local data saved by this browser.</p></div></div>
+          <div class="account-layout">
+            <article class="panel-card account-panel">
+              <div class="avatar large" id="account-avatar">GH</div>
+              <div class="account-profile-copy">
+                <div class="step-label">CURRENT PLAYER</div>
+                <h2 id="account-player-name">Guest Player</h2>
+                <p class="muted" id="account-profile-status">Guest profile · saved locally on this browser</p>
+                <div class="account-tags"><span>LOCAL PROFILE</span><span>THIS BROWSER</span></div>
+              </div>
+            </article>
+            <article class="panel-card account-actions-card">
+              <div class="step-label">PROFILE ACTIONS</div>
+              <h3>Manage your player</h3>
+              <p class="muted">You can change the local player name or return to the default Guest profile.</p>
+              <div class="account-action-buttons">
+                <button class="btn btn-primary" id="switch-account" type="button">Switch player / account name</button>
+                <button class="btn btn-outline" id="sign-out" type="button">Sign out to Guest</button>
+              </div>
+              <p class="account-disclaimer">This rebuilt edition uses a local guest profile. Google sign-in and separate cloud accounts are not configured. Changing the player name does not create a private account or separate save space.</p>
+            </article>
+            <article class="panel-card account-danger-card">
+              <div class="step-label">PRIVACY & DATA</div>
+              <h3>Delete local GameHub data</h3>
+              <p class="muted">Permanently removes this browser's saved games, creations, scores, achievements, themes, widgets, screen-time history, uploaded files, wallpapers and saved pairing token. This does not erase files or settings stored on the ESP32.</p>
+              <button class="btn btn-danger" id="delete-local-data" type="button">Delete all local GameHub data</button>
+            </article>
+          </div>
+        </section>
 
         <section class="view" id="view-widgets"><div class="page-heading"><div><div class="eyebrow">PERSONAL DASHBOARD</div><h1>Widget Studio</h1><p class="muted">Add small notes and goals to your GameHub dashboard.</p></div></div><div class="widget-layout"><form class="panel-card" id="widget-form"><div class="step-label">NEW WIDGET</div><label>Widget title<input id="widget-title" maxlength="30" placeholder="My weekly goal" required></label><label>Note<textarea id="widget-body" rows="4" maxlength="180" placeholder="What do you want to remember?"></textarea></label><button class="btn btn-primary" type="submit">Add widget</button></form><div class="widget-list" id="widget-list"></div></div></section>
 
