@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0b1424"/><stop offset="1" stop-color="#152542"/></linearGradient><style>
+.title{font:700 34px system-ui;fill:#f1f5ff}.sub{font:16px system-ui;fill:#9db0cf}.label{font:700 18px system-ui;fill:#eaf1ff}.small{font:15px system-ui;fill:#bac9e2}.pin{font:700 16px ui-monospace,monospace;fill:#fff}.wire{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}.card{fill:#15233a;stroke:#304968;stroke-width:2}.warn{fill:#482e27;stroke:#e9a45b;stroke-width:2}.warntext{font:15px system-ui;fill:#ffe0af}
+</style></defs>
+<rect width="1200" height="800" fill="url(#bg)"/>
+<text x="48" y="58" class="title">GameHub Mini · SH1106 OLED wiring</text><text x="48" y="88" class="sub">ESP32-WROOM-32 · 1.3-inch 128×64 I²C OLED · physical buttons · 1S analog battery reader</text>
+<!-- ESP board -->
+<rect x="60" y="150" width="300" height="510" rx="24" class="card"/>
+<text x="95" y="194" class="label">ESP32-WROOM-32</text>
+<rect x="144" y="222" width="130" height="105" rx="12" fill="#253955" stroke="#7890b4" stroke-width="2"/>
+<text x="209" y="266" text-anchor="middle" class="label">ESP32</text><text x="209" y="292" text-anchor="middle" class="small">DevKit</text>
+<g class="pin"><text x="86" y="380">3V3</text><text x="86" y="420">GND</text><text x="86" y="460">GPIO21</text><text x="86" y="500">GPIO22</text><text x="86" y="540">GPIO13</text><text x="86" y="580">GPIO34</text></g>
+<g class="wire"><path d="M150 374 H430 V210 H720" stroke="#e75f72"/><path d="M150 414 H460 V250 H720" stroke="#b2c0d4"/><path d="M150 454 H495 V290 H720" stroke="#57c8b1"/><path d="M150 494 H530 V330 H720" stroke="#e0c45e"/><path d="M150 534 H570 V410 H720" stroke="#bc84e8"/><path d="M150 574 H610 V500 H720" stroke="#64a7ec"/></g>
+<!-- OLED -->
+<rect x="720" y="150" width="380" height="245" rx="22" class="card"/>
+<text x="760" y="190" class="label">SH1106 OLED module</text><rect x="795" y="215" width="230" height="125" rx="12" fill="#03090b" stroke="#3ba99a" stroke-width="3"/><text x="910" y="265" text-anchor="middle" font-family="monospace" font-size="28" fill="#66e5cb">GAMEHUB</text><text x="910" y="300" text-anchor="middle" font-family="monospace" font-size="16" fill="#66e5cb">128 × 64</text>
+<text x="746" y="215" class="small">VCC</text><text x="746" y="255" class="small">GND</text><text x="746" y="295" class="small">SDA</text><text x="746" y="335" class="small">SCL</text>
+<text x="760" y="375" class="small">3V3 · GND · GPIO21 · GPIO22</text>
+<!-- buzzer battery -->
+<rect x="720" y="435" width="380" height="86" rx="16" class="card"/><text x="750" y="470" class="label">Active buzzer</text><text x="750" y="497" class="small">Signal GPIO13 · GND to common ground</text>
+<rect x="720" y="545" width="380" height="86" rx="16" class="card"/><text x="750" y="580" class="label">Analog battery reader</text><text x="750" y="607" class="small">OUT → GPIO34 · GND → common GND</text>
+<!-- buttons -->
+<rect x="60" y="680" width="1040" height="74" rx="14" class="card"/><text x="88" y="710" class="label">Buttons (each button connects its GPIO to GND when pressed):</text><text x="88" y="738" class="small">UP 32 · DOWN 33 · LEFT 25 · RIGHT 26 · A 27 · B 14 · START 18 · SELECT 19</text>
+<rect x="390" y="150" width="270" height="245" rx="18" class="warn"/><text x="420" y="190" class="label">Important battery safety</text><text x="420" y="225" class="warntext">1S Li-ion: 3.7V nominal, 4.2V full.</text><text x="420" y="253" class="warntext">Never connect the cell directly</text><text x="420" y="278" class="warntext">to GPIO34. Keep ADC input ≤3.3V.</text><text x="420" y="316" class="warntext">Measure and calibrate the divider</text><text x="420" y="341" class="warntext">ratio before trusting percentage.</text>
+<text x="390" y="430" class="small">All grounds must be common.</text><text x="390" y="458" class="small">Use a transistor driver if buzzer current</text><text x="390" y="486" class="small">is too high for an ESP32 GPIO.</text>
+<text x="60" y="784" class="sub">Diagram is a wiring guide, not a board-specific PCB layout. Verify module voltage ratings and connector labels.</text>
+</svg>
