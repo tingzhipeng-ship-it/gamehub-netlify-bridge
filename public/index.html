@@ -2,97 +2,142 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#080d16">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d18">
   <title>GameHub — Your Arcade</title>
-  <style>
-    :root{color-scheme:dark;--bg:#080d16;--side:#0c1422;--panel:#111d2d;--line:#263850;--text:#eff5ff;--muted:#9aabc2;--mint:#73e8c7;--blue:#8ca6ff;--bad:#ff9aa9;--good:#a5f4d6}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
-    button,input{font:inherit}button{cursor:pointer}a{color:var(--mint);text-decoration:none}a:hover{text-decoration:underline}
-    .app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}.sidebar{background:var(--side);border-right:1px solid var(--line);padding:22px 14px;position:sticky;top:0;height:100vh;overflow:auto}
-    .brand{font-size:22px;font-weight:900;letter-spacing:-.7px;padding:4px 10px 22px}.brand span{display:block;color:var(--mint);font-size:11px;letter-spacing:2.2px;text-transform:uppercase;margin-top:1px}
-    .nav-label{color:#73869f;font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;padding:14px 10px 6px}.nav{display:grid;gap:4px}.nav button{width:100%;text-align:left;color:#c3cee0;border:1px solid transparent;background:transparent;border-radius:10px;padding:10px 11px}.nav button:hover,.nav button.active{background:#17243a;border-color:#2a405e;color:white}.nav button.active{box-shadow:inset 3px 0 var(--mint)}.count{float:right;color:#8395ad;font-size:11px}
-    .main{min-width:0;padding:28px clamp(16px,4vw,48px) 60px;max-width:1400px;width:100%;margin:0 auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:30px}.crumb{color:var(--muted);font-size:13px}.device-pill{border:1px solid var(--line);border-radius:30px;padding:7px 12px;color:var(--muted);font-size:12px;white-space:nowrap}.device-pill.online{color:var(--good);border-color:#28624f}
-    .view{display:none}.view.active{display:block}.eyebrow{color:var(--mint);font-size:11px;letter-spacing:2px;font-weight:800;text-transform:uppercase}.hero{margin:0 0 24px}.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.04;letter-spacing:-1.7px;margin:9px 0 12px}.hero p{color:var(--muted);max-width:720px;margin:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:linear-gradient(150deg,#142137,#101a29);border:1px solid var(--line);border-radius:17px;padding:20px;min-width:0}.card h2,.card h3{margin:0 0 9px}.card p{color:var(--muted);margin:7px 0 14px}.muted{color:var(--muted)}.small{font-size:12px;color:var(--muted)}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.field{width:100%;background:#091322;color:white;border:1px solid #344b69;border-radius:10px;padding:12px 13px;outline:none}.field:focus{border-color:var(--mint)}.pin-input{max-width:210px;font-size:25px;letter-spacing:8px;font-weight:800;text-align:center}.btn{border:1px solid #3a506e;color:var(--text);background:#1b2b42;border-radius:10px;padding:11px 15px;font-weight:750}.btn:hover{filter:brightness(1.15)}.btn.primary{background:linear-gradient(120deg,var(--mint),#9aaaff);border:0;color:#071525}.btn:disabled{opacity:.45;cursor:not-allowed}.status{background:#0a1422;border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--muted);font-size:13px;margin-top:12px;overflow-wrap:anywhere}.status.good{color:var(--good);border-color:#28624f}.status.bad{color:var(--bad);border-color:#70404b}.device-line{display:flex;align-items:center;gap:10px;margin:14px 0}.dot{width:10px;height:10px;border-radius:50%;background:#718096;box-shadow:0 0 0 5px #71809620}.dot.on{background:#6fe4bd;box-shadow:0 0 0 5px #6fe4bd20}.controller{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center;margin-top:15px}.dpad{display:grid;grid-template-columns:repeat(3,55px);grid-template-rows:repeat(3,49px);gap:5px;justify-content:center}.dpad button{font-size:20px}.dpad .up{grid-column:2;grid-row:1}.dpad .left{grid-column:1;grid-row:2}.dpad .down{grid-column:2;grid-row:2}.dpad .right{grid-column:3;grid-row:2}.actions{display:flex;justify-content:center;gap:12px}.actions .btn{width:58px;height:58px;border-radius:50%;font-size:20px}.system{display:flex;justify-content:center;gap:9px;margin-top:15px}.divider{height:1px;background:var(--line);margin:18px 0}.notice{font-size:12px;color:var(--muted);margin-top:10px}.tag{display:inline-block;border:1px solid var(--line);border-radius:30px;padding:5px 9px;font-size:11px;color:var(--muted)}.placeholder{min-height:190px;display:grid;place-items:center;text-align:center;color:var(--muted)}.cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.footer{border-top:1px solid var(--line);padding-top:18px;color:#71829a;font-size:12px;margin-top:32px}
-    @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:14px}.brand{padding:3px 8px 10px}.nav{display:flex;overflow-x:auto}.nav-label{display:none}.nav button{width:auto;white-space:nowrap;padding:8px 10px}.main{padding:22px 14px 40px}.grid,.cards3{grid-template-columns:1fr}.topbar{margin-bottom:22px}}
-    @media(max-width:460px){.controller{grid-template-columns:1fr}.pin-input{max-width:100%}.hero h1{font-size:34px}}
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="app">
-  <aside class="sidebar">
-    <div class="brand">🎮 GameHub<span>Your arcade</span></div>
-    <div class="nav-label">Library</div>
-    <nav class="nav" aria-label="Library navigation">
-      <button data-view="dashboard">▦ Dashboard</button>
-      <button data-view="store">🎮 Game Store <span class="count">500</span></button>
-      <button data-view="create">🪄 Create a Game</button>
-      <button data-view="mygames">▤ My Games <span class="count">0</span></button>
-      <button data-view="upload">⬆️ Upload Games</button>
-      <button data-view="storage">💾 Storage</button>
-    </nav>
-    <div class="nav-label">Console</div>
-    <nav class="nav" aria-label="Console navigation">
-      <button data-view="editions">🖥️ Screen Editions</button>
-      <button data-view="myesp32" class="active">⌁ My ESP32</button>
-      <button data-view="account">◉ Google Account</button>
-      <button data-view="widgets">🧩 Widget Studio</button>
-      <button data-view="settings">⚙ Settings</button>
-    </nav>
-  </aside>
-  <main class="main">
-    <div class="topbar"><div class="crumb">GAMEHUB / <strong id="crumbname">My ESP32</strong></div><span class="device-pill" id="global-state">● DEVICE OFFLINE</span></div>
-
-    <section class="view" id="view-dashboard">
-      <div class="hero"><div class="eyebrow">GAMEHUB / DASHBOARD</div><h1>Welcome to your arcade.</h1><p>Your games, creations and handheld console in one place.</p></div>
-      <div class="cards3"><div class="card"><h3>🎮 Game Store</h3><p>Browse the GameHub catalogue.</p><button class="btn" data-go="store">Open Game Store</button></div><div class="card"><h3>🪄 Create a Game</h3><p>Start a browser-playable game project.</p><button class="btn" data-go="create">Open Creator</button></div><div class="card"><h3>⌁ My ESP32</h3><p>Connect your GameHub Mini by PIN or USB.</p><button class="btn primary" data-go="myesp32">Connect console</button></div></div>
-    </section>
-
-    <section class="view" id="view-myesp32">
-      <div class="hero"><div class="eyebrow">YOUR HANDHELD / CONSOLE</div><h1>ESP32 Game Boy.</h1><p>Connect your GameHub Mini using either Wi-Fi PIN pairing or a direct USB cable. Both options are available here in My ESP32.</p></div>
-      <div class="grid">
-        <section class="card" id="pin-card">
-          <span class="tag">OPTION 1 · WIRELESS</span><h2 style="margin-top:12px">Pair by six-digit PIN</h2>
-          <p>Connect your ESP32 to Wi-Fi. On its OLED, open <b>WEB / PAIR</b> and use the six-digit PIN shown on the display.</p>
-          <label for="pin-input" class="small">PIN from your ESP32 OLED</label>
-          <div class="row" style="margin-top:7px"><input class="field pin-input" id="pin-input" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="000000" autocomplete="one-time-code"><button class="btn primary" id="pin-pair">Pair device →</button></div>
-          <div class="status" id="pin-status" role="status">Not paired. Enter the PIN displayed on your console.</div>
-          <div class="device-line"><span class="dot" id="cloud-dot"></span><div><strong id="cloud-state">Device offline</strong><div class="small" id="cloud-detail">Waiting for a PIN pairing session.</div></div></div>
-          <div id="cloud-controls" hidden>
-            <div class="controller"><div class="dpad"><button class="btn up" data-cloud="UP">↑</button><button class="btn left" data-cloud="LEFT">←</button><button class="btn down" data-cloud="DOWN">↓</button><button class="btn right" data-cloud="RIGHT">→</button></div><div class="actions"><button class="btn" data-cloud="B">B</button><button class="btn primary" data-cloud="A">A</button></div></div>
-            <div class="system"><button class="btn" data-cloud="SELECT">SELECT</button><button class="btn" data-cloud="START">START</button><button class="btn" id="forget-pin">Forget PIN</button></div>
-          </div>
-        </section>
-
-        <section class="card" id="usb-card">
-          <span class="tag">OPTION 2 · USB CABLE</span><h2 style="margin-top:12px">Connect directly by USB</h2>
-          <p>Use a USB data cable and desktop Chrome or Edge. This connection does not require Wi-Fi, a PIN or the cloud bridge.</p>
-          <div class="row"><button class="btn primary" id="usb-connect">Connect ESP32 over USB →</button><button class="btn" id="usb-disconnect" disabled>Disconnect</button></div>
-          <div class="status" id="usb-status" role="status">USB not connected. Close ESP IDE / ViperIDE serial monitors before connecting.</div>
-          <div class="device-line"><span class="dot" id="usb-dot"></span><div><strong id="usb-state">USB offline</strong><div class="small" id="usb-detail">Waiting for the GameHub USB firmware.</div></div></div>
-          <div id="usb-controls" hidden>
-            <div class="controller"><div class="dpad"><button class="btn up" data-usb="UP">↑</button><button class="btn left" data-usb="LEFT">←</button><button class="btn down" data-usb="DOWN">↓</button><button class="btn right" data-usb="RIGHT">→</button></div><div class="actions"><button class="btn" data-usb="B">B</button><button class="btn primary" data-usb="A">A</button></div></div>
-            <div class="system"><button class="btn" data-usb="SELECT">SELECT</button><button class="btn" data-usb="START">START</button></div>
-          </div>
-          <p class="notice">Requires the matching USB-enabled MicroPython firmware, HTTPS, and Web Serial support. USB is a direct connection, separate from PIN pairing.</p>
-        </section>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#dashboard" data-view-link="dashboard" aria-label="GameHub dashboard">
+        <span class="brand-mark">GH</span><span><b>GameHub</b><small>Your arcade</small></span>
+      </a>
+      <div class="side-label">PLAY</div>
+      <button class="nav-link active" data-view="dashboard"><span>▦</span> Dashboard</button>
+      <button class="nav-link" data-view="store"><span>🎮</span> Game Store <i>24</i></button>
+      <button class="nav-link" data-view="create"><span>🪄</span> Create a Game</button>
+      <button class="nav-link" data-view="mygames"><span>▤</span> My Games <i id="my-games-count">0</i></button>
+      <button class="nav-link" data-view="uploads"><span>⬆</span> Upload Games</button>
+      <button class="nav-link" data-view="storage"><span>💾</span> Storage</button>
+      <div class="side-label side-label-spaced">CONSOLE</div>
+      <button class="nav-link" data-view="console"><span>🖥</span> Screen Editions</button>
+      <button class="nav-link" data-view="esp32"><span>⌁</span> My ESP32 <span class="tiny-dot" id="side-device-dot"></span></button>
+      <button class="nav-link" data-view="account"><span>◉</span> Account</button>
+      <button class="nav-link" data-view="widgets"><span>🧩</span> Widget Studio</button>
+      <button class="nav-link" data-view="settings"><span>⚙</span> Settings</button>
+      <div class="sidebar-bottom">
+        <div class="mini-device"><span class="mini-orb" id="sidebar-orb"></span><div><b id="sidebar-device-status">Device offline</b><small id="sidebar-device-sub">Browser arcade ready</small></div></div>
+        <div class="sidebar-foot">GAMEHUB CREATOR STUDIO<br><span>Made for your pocket arcade</span></div>
       </div>
-      <section class="card" style="margin-top:16px"><h2>Device information</h2><div class="cards3"><div><span class="small">BOARD</span><div><b>ESP32-WROOM-32</b></div></div><div><span class="small">DISPLAY</span><div><b>SH1106 · OLED 128×64</b></div></div><div><span class="small">CONTROLS</span><div><b>8 physical buttons</b></div></div></div><p class="notice">The USB and Wi-Fi options can be used independently. Pairing by PIN requires your Netlify bridge function to be deployed and the ESP32 to announce itself online.</p></section>
-    </section>
+    </aside>
 
-    <section class="view" id="view-store"><div class="hero"><div class="eyebrow">GAME LIBRARY</div><h1>Game Store.</h1><p>GameHub catalogue area.</p></div><div class="card placeholder"><div><h2>Game catalogue placeholder</h2><p>This scratch build does not include your original 500 catalogue variations or game assets. They must be restored from your original site source.</p></div></div></section>
-    <section class="view" id="view-create"><div class="hero"><div class="eyebrow">CREATOR STUDIO</div><h1>Create a Game.</h1><p>Game creator placeholder. Your original templates and creator logic are not included in this scratch rebuild.</p></div></section>
-    <section class="view" id="view-mygames"><div class="hero"><div class="eyebrow">YOUR LIBRARY</div><h1>My Games.</h1><p>Your saved games area.</p></div><div class="card placeholder">No games loaded in this scratch build.</div></section>
-    <section class="view" id="view-upload"><div class="hero"><div class="eyebrow">UPLOAD</div><h1>Upload Games.</h1><p>Game upload placeholder. The original uploader needs to be restored from your original site files.</p></div></section>
-    <section class="view" id="view-storage"><div class="hero"><div class="eyebrow">STORAGE</div><h1>Storage.</h1><p>Browser storage estimates are not connected in this scratch build.</p></div></section>
-    <section class="view" id="view-editions"><div class="hero"><div class="eyebrow">DISPLAY</div><h1>Screen Editions.</h1><p>Choose the hardware edition. The current firmware target is SH1106 128×64 OLED.</p><div class="card"><b>1.3-inch OLED · SH1106 · 128×64</b><p>Current GameHub Mini edition.</p></div></div></section>
-    <section class="view" id="view-account"><div class="hero"><div class="eyebrow">ACCOUNT</div><h1>Google Account.</h1><p>Google sign-in is not configured in this scratch build.</p></div></section>
-    <section class="view" id="view-widgets"><div class="hero"><div class="eyebrow">WIDGET STUDIO</div><h1>Widget Studio.</h1><p>Your original widget tools need to be restored from your original website source.</p></div></section>
-    <section class="view" id="view-settings"><div class="hero"><div class="eyebrow">SETTINGS</div><h1>Settings.</h1><p>Settings placeholder for this scratch build.</p></div></section>
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button>
+        <div class="crumb"><span>GAMEHUB</span><b id="current-crumb">/ DASHBOARD</b></div>
+        <div class="top-actions">
+          <label class="global-search"><span>⌕</span><input id="global-search" type="search" placeholder="Search games…"><kbd>/</kbd></label>
+          <div class="top-battery" title="ESP32 battery telemetry"><span>▰</span><b id="top-battery">--%</b></div>
+          <button class="avatar" id="account-shortcut" title="Account">ZP</button>
+        </div>
+      </header>
 
-    <footer class="footer">GAMEHUB · YOUR ARCADE · ESP32 Game Boy connection panel supports PIN pairing and direct USB serial when the matching firmware is installed.</footer>
-  </main>
-</div>
-<script src="gamehub-my-esp32.js" defer></script>
+      <div class="content-wrap">
+        <section class="view active" id="view-dashboard">
+          <div class="welcome-row"><div><div class="eyebrow">YOUR PERSONAL ARCADE</div><h1>Ready, player?</h1><p class="muted">Pick up where you left off, discover something new, or connect your handheld.</p></div><button class="btn btn-primary" data-go="store">Explore games <span>→</span></button></div>
+          <div class="hero-card">
+            <div class="hero-copy"><span class="hero-pill">GAMEHUB MINI · SEASON 01</span><h2>More games.<br><em>More adventures.</em></h2><p>Play quick arcade favourites, build your own mini-games, and bring your ESP32 Game Boy into the action.</p><div class="hero-buttons"><button class="btn btn-light" data-go="store">Browse the arcade</button><button class="btn btn-glass" data-go="esp32">Connect my ESP32 ↗</button></div></div>
+            <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="handheld"><div class="handheld-screen"><div class="pixel-title">GAME<br>HUB</div><div class="pixel-stars">✦　·　✦</div><div class="pixel-land"></div></div><div class="handheld-controls"><div class="fake-dpad"><span></span></div><div class="fake-buttons"><i></i><i></i></div></div></div><span class="float-chip chip-a">8-BIT FUN</span><span class="float-chip chip-b">PLAY ANYTIME</span></div>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card"><span class="stat-icon purple">🎮</span><div><small>PLAYABLE GAMES</small><strong>24</strong><span>24 different game mechanics</span></div></article>
+            <article class="stat-card"><span class="stat-icon blue">▤</span><div><small>MY GAMES</small><strong id="dash-my-games">0</strong><span>Your saved collection</span></div></article>
+            <article class="stat-card"><span class="stat-icon green">◷</span><div><small>SCREEN TIME TODAY</small><strong id="dash-screen-time">0m</strong><span>Tracked on this browser</span></div></article>
+            <article class="stat-card"><span class="stat-icon orange">▰</span><div><small>HANDHELD BATTERY</small><strong id="dash-battery">--%</strong><span id="dash-battery-source">Connect ESP32 to read</span></div></article>
+          </div>
+          <div class="section-heading"><div><div class="eyebrow">A GOOD PLACE TO START</div><h2>Featured games</h2></div><button class="text-button" data-go="store">View all 24 →</button></div>
+          <div class="featured-grid" id="featured-games"></div>
+          <div class="dashboard-bottom">
+            <article class="panel-card continue-card"><div class="section-heading compact"><div><div class="eyebrow">YOUR COLLECTION</div><h3>Continue playing</h3></div><button class="text-button" data-go="mygames">My Games →</button></div><div id="continue-list" class="empty-inline">Save games from the Game Store and they will appear here.</div></article>
+            <article class="panel-card time-card"><div class="eyebrow">YOUR PLAY HABITS</div><h3>Time in the arcade</h3><div class="time-big" id="time-big">0h 0m</div><p class="muted">Today's active GameHub screen time on this browser.</p><div class="time-track"><span id="time-track-fill"></span></div><small class="muted">Daily goal: 60 minutes</small></article>
+          </div>
+          <div class="progress-grid">
+            <article class="panel-card challenge-card"><div class="step-label">TODAY'S ARCADE CHALLENGE</div><h3 id="daily-title">Loading today's challenge…</h3><p class="muted" id="daily-description">Play today's selected game to complete your daily challenge.</p><div class="challenge-foot"><span id="daily-status">Not started</span><button class="btn btn-outline" id="daily-play">Play challenge →</button></div></article>
+            <article class="panel-card achievements-card"><div class="step-label">YOUR TROPHY SHELF</div><h3>Achievements</h3><div class="achievement-list" id="achievement-list"></div></article>
+            <article class="panel-card leaderboard-card"><div class="step-label">LOCAL HIGH SCORES</div><h3>Personal leaderboard</h3><div id="leaderboard-list" class="leaderboard-list"></div><small class="muted">Scores stay in this browser. Online global rankings need an account and server database.</small></article>
+          </div>
+        </section>
+
+        <section class="view" id="view-store">
+          <div class="page-heading"><div><div class="eyebrow">THE ARCADE</div><h1>Game Store <span class="count-pill">24</span></h1><p class="muted">Twenty-four different arcade, puzzle, action and skill games.</p></div><button class="btn btn-primary" data-go="create">＋ Create a game</button></div>
+          <div class="store-toolbar"><label class="search-box">⌕ <input id="store-search" type="search" placeholder="Find a game or genre…"></label><select id="category-filter" aria-label="Filter category"><option value="all">All categories</option><option>Arcade</option><option>Action</option><option>Puzzle</option><option>Casual</option><option>Classic</option><option>Skill</option></select><select id="sort-filter" aria-label="Sort games"><option value="featured">Featured</option><option value="az">Name A–Z</option><option value="za">Name Z–A</option></select></div>
+          <div class="filter-chips" id="filter-chips"><button class="chip active" data-category="all">All games</button><button class="chip" data-category="Arcade">Arcade</button><button class="chip" data-category="Action">Action</button><button class="chip" data-category="Puzzle">Puzzle</button><button class="chip" data-category="Casual">Casual</button><button class="chip" data-category="Classic">Classic</button><button class="chip" data-category="Skill">Skill</button></div>
+          <div class="results-row"><span id="store-results">Showing 24 games</span><span>Choose a card to play · ☆ saves to My Games</span></div>
+          <div class="game-grid" id="game-grid"></div>
+          <div class="pagination-row"><button class="btn btn-outline" id="load-more">Load more games</button></div>
+        </section>
+
+        <section class="view" id="view-create">
+          <div class="page-heading"><div><div class="eyebrow">CREATOR STUDIO</div><h1>Create a Game</h1><p class="muted">Make a personal arcade variation. Your creations are saved in this browser.</p></div></div>
+          <div class="creator-layout"><form class="panel-card creator-form" id="create-form"><div class="step-label">01 / GAME DETAILS</div><label>Game name<input id="create-title" maxlength="32" placeholder="My Neon Adventure" required></label><label>Start from a game engine<select id="create-template"><option value="snake">Neon Snake</option><option value="pong">Pocket Pong</option><option value="breakout">Brick Breaker</option><option value="flappy">Sky Hopper</option><option value="runner">Pixel Runner</option><option value="shooter">Space Patrol</option><option value="dodge">Meteor Dodge</option><option value="target">Target Tap</option><option value="memory">Memory Match</option><option value="tictactoe">Tic-Tac-Toe</option><option value="tetris">Tetris Drop</option><option value="2048">2048 Merge</option><option value="mines">Mine Finder</option><option value="simon">Simon Sequence</option><option value="whack">Whack-a-Mole</option><option value="connect4">Connect Four</option><option value="lights">Lights Out</option><option value="word">Word Guess</option><option value="math">Math Blitz</option><option value="maze">Maze Escape</option><option value="tower">Tower Stack</option><option value="lunar">Lunar Lander</option><option value="reaction">Reaction Rush</option><option value="fruit">Fruit Catch</option></select></label><label>Difficulty<select id="create-difficulty"><option value="easy">Easy</option><option value="normal" selected>Normal</option><option value="hard">Hard</option></select></label><label>Accent colour<input id="create-color" type="color" value="#8b7cff"></label><div class="creator-preview" id="creator-preview"><span>NEW BUILD</span><b id="creator-preview-title">My Neon Adventure</b><small>YOUR CUSTOM ARCADE GAME</small></div><button class="btn btn-primary full-width" type="submit">Create and save game ↗</button></form><div class="creator-info"><div class="creator-orb">✦</div><h2>Your idea.<br><em>Your rules.</em></h2><p>Choose a starter engine, give your game a name and colour, and save it to My Games. You can launch it immediately or keep editing your collection later.</p><div class="creator-tip"><b>Creator tip</b><span>Start with a simple mechanic, then increase the difficulty to make your own challenge.</span></div></div></div>
+          <article class="panel-card creator-ai-card"><div class="step-label">GAMEHUB AI GAME DESIGNER</div><h2>Describe your game idea</h2><p class="muted">Tell the AI what you want. Online AI can create a playable game recipe using the 24 supported mechanics. Offline helper can still suggest a suitable engine.</p><textarea id="creator-prompt" rows="4" maxlength="1200" placeholder="Example: Make a space game where I dodge asteroids, collect stars and survive for 90 seconds."></textarea><div class="creator-ai-actions"><button class="btn btn-primary" id="creator-ai-btn" type="button">✦ Build my game</button><span class="muted" id="creator-ai-status">AI: online when configured · offline helper always available</span></div><div class="creator-ai-output" id="creator-ai-output" aria-live="polite">Your AI game design will appear here.</div></article>
+        </section>
+
+        <section class="view" id="view-mygames">
+          <div class="page-heading"><div><div class="eyebrow">YOUR PERSONAL COLLECTION</div><h1>My Games</h1><p class="muted">Your saved favourites, creations and uploaded game files.</p></div><button class="btn btn-primary" data-go="store">＋ Add games</button></div>
+          <div class="collection-tabs"><button class="chip active" data-collection="games">Saved games <span id="saved-count">0</span></button><button class="chip" data-collection="uploads">Uploaded files <span id="uploaded-count">0</span></button></div>
+          <div id="mygames-content" class="game-grid"></div>
+        </section>
+
+        <section class="view" id="view-uploads">
+          <div class="page-heading"><div><div class="eyebrow">BRING YOUR OWN BUILDS</div><h1>Upload Games</h1><p class="muted">Keep your own HTML, JavaScript and MicroPython game files in your browser library.</p></div></div>
+          <div class="upload-layout"><div class="upload-drop panel-card" id="drop-zone"><div class="upload-icon">⬆</div><h2>Drop your game files here</h2><p class="muted">HTML, JS, PY, ZIP or TXT · Files stay in this browser until you download them.</p><input id="upload-input" type="file" multiple accept=".html,.htm,.js,.py,.zip,.txt,application/zip,text/html,text/javascript,text/plain"><label for="upload-input" class="btn btn-primary">Choose files</label></div><div class="panel-card upload-note"><div class="step-label">HOW IT WORKS</div><h3>Your files, your library</h3><p>Files are saved in this browser using IndexedDB. They are not automatically uploaded to the ESP32.</p><ul><li><b>.html</b> — open in a new browser tab</li><li><b>.js</b> — keep as a source file</li><li><b>.py</b> — download and transfer to ESP32 with your IDE</li><li><b>.zip</b> — save your project archive</li></ul></div></div>
+          <div class="section-heading"><div><div class="eyebrow">YOUR FILES</div><h2>Uploaded library</h2></div><span class="muted" id="upload-space">0 files</span></div><div class="file-list" id="upload-list"></div>
+        </section>
+
+        <section class="view" id="view-storage">
+          <div class="page-heading"><div><div class="eyebrow">LOCAL LIBRARY</div><h1>Storage</h1><p class="muted">A view of the files and data saved by GameHub in this browser.</p></div></div>
+          <div class="stats-grid storage-stats"><article class="stat-card"><span class="stat-icon purple">💾</span><div><small>UPLOADED FILES</small><strong id="storage-files">0</strong><span>IndexedDB library</span></div></article><article class="stat-card"><span class="stat-icon blue">▤</span><div><small>SAVED GAMES</small><strong id="storage-games">0</strong><span>My Games collection</span></div></article><article class="stat-card"><span class="stat-icon green">◫</span><div><small>LOCAL DATA</small><strong id="storage-used">--</strong><span>Browser estimate</span></div></article></div>
+          <div class="panel-card storage-info"><h3>Where is my storage?</h3><p>GameHub saves your game list, screen-time total and settings in this browser. Uploaded files are stored in IndexedDB on this device. Clearing browser website data may remove these local files. This is not ESP32 flash or microSD storage.</p><button class="btn btn-outline" id="export-data">Export my GameHub data</button></div>
+        </section>
+
+        <section class="view" id="view-console">
+          <div class="page-heading"><div><div class="eyebrow">DISPLAY CONFIGURATION</div><h1>Screen Editions</h1><p class="muted">Choose the screen profile used by your handheld.</p></div></div>
+          <div class="edition-grid"><button class="edition-card selected" data-edition="oled"><div class="edition-art oled-art"><span>GAMEHUB</span><i>128×64</i></div><h3>1.3-inch OLED</h3><p>SH1106 · 128×64 · monochrome</p><span class="edition-selected">Selected</span></button><button class="edition-card" data-edition="tft"><div class="edition-art tft-art"><span>GAMEHUB</span><i>320×240</i></div><h3>2.8-inch TFT</h3><p>ILI9341 320×240 · XPT2046 touchscreen</p><span class="edition-selected">Select edition</span></button></div>
+        </section>
+
+        <section class="view" id="view-esp32">
+          <div class="page-heading"><div><div class="eyebrow">GAMEHUB / CONSOLE</div><h1>My ESP32</h1><p class="muted">Connect your GameHub Mini using one six-digit Wi-Fi PIN or, on compatible computers, a USB data cable.</p></div><span class="status-badge offline" id="esp-status-badge">● DEVICE OFFLINE</span></div>
+          <div class="device-layout">
+            <div class="device-main">
+              <article class="panel-card connection-card"><div class="device-title-row"><div><div class="step-label">YOUR HANDHELD</div><h2>ESP32 Game Boy</h2></div><div class="device-icon">▣</div></div><div class="connection-status"><span class="status-orb" id="device-orb"></span><div><b id="device-status">Not connected yet</b><small id="device-status-detail">Choose a connection method below.</small></div></div><div class="connection-tabs"><button class="connection-tab active" data-connect-tab="pin">① Pair by PIN</button><button class="connection-tab" data-connect-tab="usb">② Connect by USB</button></div>
+                <div class="connect-panel active" id="connect-pin"><p class="muted">Connect your ESP32 to Wi-Fi. Open <b>WEB / PAIR</b> on its screen. Use the same six-digit PIN shown there. The ESP32 keeps one PIN for its active pairing session; it must show “Bridge connected” before you submit it.</p><form id="pair-form"><label for="pair-pin">PIN from your ESP32 OLED</label><div class="pin-row"><input id="pair-pin" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="000000" autocomplete="one-time-code" required><button class="btn btn-primary" type="submit" id="pair-submit">Pair device →</button></div></form><p class="inline-status" id="pair-message" role="status">Waiting for a PIN pairing session.</p></div>
+                <div class="connect-panel" id="connect-usb"><p class="muted">Use a USB data cable and a compatible browser. Android USB is optional and not recommended; Wi-Fi PIN pairing is easier. Close ESP IDE / ViperIDE serial monitors before connecting.</p><button class="btn btn-primary" id="usb-connect">Connect ESP32 over USB ↗</button><button class="btn btn-outline hidden" id="usb-disconnect">Disconnect USB</button><p class="inline-status" id="usb-message" role="status">USB connection not started.</p><small class="muted">USB direct control requires a data cable and browser Serial API support over HTTPS. Android/iPhone USB support varies; use Wi-Fi PIN pairing on phones. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API" target="_blank" rel="noopener">Browser support details</a>.</small></div>
+              </article>
+              <article class="panel-card remote-card"><div class="remote-head"><div><div class="step-label">REMOTE CONTROL</div><h3>Handheld controller</h3></div><span class="remote-connection" id="remote-mode">Not connected</span></div><div class="remote-layout"><div class="dpad"><button data-remote="UP" aria-label="Up">▲</button><div class="dpad-mid"><button data-remote="LEFT" aria-label="Left">◀</button><button data-remote="DOWN" aria-label="Down">▼</button><button data-remote="RIGHT" aria-label="Right">▶</button></div></div><div class="ab-pad"><button class="btn-b" data-remote="B">B</button><button class="btn-a" data-remote="A">A</button><span>B / A</span></div></div><div class="system-buttons"><button data-remote="SELECT">SELECT</button><button data-remote="START">START</button></div><p class="muted tiny-note">Physical buttons on your handheld always remain available. Remote controls work only while the selected connection is active.</p></article>
+            </div>
+            <aside class="device-side"><article class="panel-card battery-card"><div class="step-label">LIVE 1S BATTERY</div><div class="battery-gauge"><div class="battery-number" id="esp-battery-percent">--<small>%</small></div><div class="battery-icon"><span id="battery-fill"></span></div></div><div class="battery-voltage" id="esp-battery-voltage">Voltage unavailable</div><p class="muted" id="battery-source">Connect the ESP32 to read its battery sensor.</p><div class="battery-warning" id="battery-warning">Battery percentage is reported by calibrated ESP32 firmware, not guessed by the browser.</div></article>
+              <article class="panel-card device-details"><div class="step-label">DEVICE DETAILS</div><dl><div><dt>Board</dt><dd>ESP32-WROOM-32</dd></div><div><dt>Display</dt><dd id="device-screen">SH1106 OLED</dd></div><div><dt>Connection</dt><dd id="device-connection-type">Offline</dd></div><div><dt>Current mode</dt><dd id="device-mode">—</dd></div><div><dt>Last update</dt><dd id="device-last-seen">—</dd></div></dl><button class="text-button danger-text" id="forget-device">Forget PIN pairing</button></article>
+            </aside>
+          </div>
+          <div class="hardware-grid"><article class="panel-card"><span class="hardware-icon">🧠</span><h3>ESP32 DevKit</h3><p>ESP32-WROOM-32 controller. USB data cable required for direct USB control.</p></article><article class="panel-card"><span class="hardware-icon">🖥</span><h3>OLED 128×64</h3><p>SH1106 I2C profile with physical buttons.</p></article><article class="panel-card"><span class="hardware-icon">🎛</span><h3>8 buttons</h3><p>UP, DOWN, LEFT, RIGHT, A, B, START and SELECT.</p></article><article class="panel-card"><span class="hardware-icon">🔋</span><h3>1S analog battery reader</h3><p>GPIO34 analog input. Voltage divider must be calibrated; never allow more than 3.3 V at the ESP32 pin.</p></article></div><article class="panel-card wiring-card"><div class="step-label">HARDWARE WIRING</div><h3>Choose your screen wiring diagram</h3><div class="wiring-links"><a href="wiring-oled.svg" target="_blank" rel="noopener">Open SH1106 OLED wiring diagram ↗</a><a href="wiring-tft.svg" target="_blank" rel="noopener">Open ILI9341 + touch wiring diagram ↗</a></div><p class="muted">The TFT pin map is a suggested layout for an ILI9341 + XPT2046 module. Verify your breakout labels before wiring.</p></article>
+        </section>
+
+        <section class="view" id="view-account"><div class="page-heading"><div><div class="eyebrow">PLAYER PROFILE</div><h1>Account</h1><p class="muted">Your local GameHub profile on this browser.</p></div></div><div class="panel-card account-panel"><div class="avatar large">ZP</div><div><h2>Arcade Player</h2><p class="muted">Guest profile · saved locally on this browser</p><p class="muted">Google sign-in is not configured in this rebuilt static edition, so no fake sign-in is shown.</p></div></div></section>
+
+        <section class="view" id="view-widgets"><div class="page-heading"><div><div class="eyebrow">PERSONAL DASHBOARD</div><h1>Widget Studio</h1><p class="muted">Add small notes and goals to your GameHub dashboard.</p></div></div><div class="widget-layout"><form class="panel-card" id="widget-form"><div class="step-label">NEW WIDGET</div><label>Widget title<input id="widget-title" maxlength="30" placeholder="My weekly goal" required></label><label>Note<textarea id="widget-body" rows="4" maxlength="180" placeholder="What do you want to remember?"></textarea></label><button class="btn btn-primary" type="submit">Add widget</button></form><div class="widget-list" id="widget-list"></div></div></section>
+
+        <section class="view" id="view-settings"><div class="page-heading"><div><div class="eyebrow">MAKE IT YOURS</div><h1>Settings & Appearance</h1><p class="muted">Customise your GameHub wallpaper, colours and play preferences.</p></div></div><div class="settings-layout"><article class="panel-card appearance-card"><div class="step-label">WALLPAPER STUDIO</div><h3>Choose your background</h3><div class="wallpaper-grid"><button class="wallpaper-choice wp-aurora selected" data-wallpaper="aurora"><span>Aurora</span></button><button class="wallpaper-choice wp-sunset" data-wallpaper="sunset"><span>Sunset</span></button><button class="wallpaper-choice wp-grid" data-wallpaper="grid"><span>Pixel grid</span></button><button class="wallpaper-choice wp-space" data-wallpaper="space"><span>Deep space</span></button><button class="wallpaper-choice wp-mint" data-wallpaper="mint"><span>Mint glow</span></button></div><label class="file-label">Upload your own wallpaper<input type="file" id="wallpaper-upload" accept="image/png,image/jpeg,image/webp"></label><label>Accent colour<input type="color" id="accent-picker" value="#8b7cff"></label><label>Interface font<select id="font-picker"><option value="manrope">Manrope · Rounded modern</option><option value="system">System · Native device</option><option value="trebuchet">Trebuchet · Friendly</option><option value="arial">Arial · Classic</option></select></label><div class="theme-row"><span>Light theme</span><button class="toggle" id="theme-toggle" role="switch" aria-checked="false"><i></i></button><span>Dark theme</span></div></article><article class="panel-card prefs-card"><div class="step-label">PLAY PREFERENCES</div><h3>Screen time & data</h3><div class="pref-row"><div><b>Daily screen-time goal</b><small>Used for your personal progress bar.</small></div><select id="screen-goal"><option value="30">30 minutes</option><option value="60" selected>60 minutes</option><option value="90">90 minutes</option><option value="120">2 hours</option></select></div><div class="pref-row"><div><b>Reduce animations</b><small>Lower visual movement in the interface.</small></div><button class="toggle" id="reduce-motion" role="switch" aria-checked="false"><i></i></button></div><div class="pref-row"><div><b>Reset local GameHub data</b><small>Clears saved games, settings and screen time.</small></div><button class="btn btn-danger" id="reset-data">Reset</button></div></article></div></section>
+      </div>
+      <footer class="main-footer"><span>GAMEHUB CREATOR STUDIO</span><span>24 original games · AI Creator Studio · ESP32 integration</span></footer>
+    </main>
+  </div>
+
+  <div class="modal hidden" id="game-modal" role="dialog" aria-modal="true" aria-labelledby="game-modal-title"><div class="modal-backdrop" data-close-game></div><div class="game-window"><div class="game-window-head"><div><span class="eyebrow">NOW PLAYING</span><h2 id="game-modal-title">Game title</h2></div><div class="game-window-actions"><span id="game-score">SCORE 0</span><button class="icon-btn" id="game-pause" title="Pause">Ⅱ</button><button class="icon-btn" id="game-restart" title="Restart">↻</button><button class="icon-btn" data-close-game title="Close">×</button></div></div><canvas id="game-canvas" width="480" height="300"></canvas><label class="word-input-wrap hidden" id="word-input-wrap">Type your five-letter guess<input id="game-word-input" maxlength="5" autocomplete="off" autocapitalize="characters" placeholder="TYPE WORD"></label><div class="game-help" id="game-help">Use arrow keys to play.</div><div class="touch-controls"><button data-game-key="LEFT">◀</button><button data-game-key="UP">▲</button><button data-game-key="DOWN">▼</button><button data-game-key="RIGHT">▶</button><button data-game-key="A">A</button></div></div></div>
+  <button class="ai-fab" id="ai-fab" aria-label="Open GameHub AI assistant">✦ <span>AI help</span></button>
+  <aside class="ai-panel hidden" id="ai-panel" aria-label="GameHub AI assistant"><div class="ai-panel-head"><div><b>GameHub AI</b><small>Online AI + offline helper</small></div><button id="ai-close" aria-label="Close AI assistant">×</button></div><div class="ai-messages" id="ai-messages"></div><form id="ai-chat-form" class="ai-chat-form"><input id="ai-chat-input" maxlength="1200" placeholder="Ask GameHub AI…" autocomplete="off" required><button class="btn btn-primary" type="submit">Send</button></form><small class="ai-footnote">Online AI needs an API key configured in Netlify. Offline help works without it.</small></aside>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js" defer></script>
 </body>
 </html>
