@@ -7,7 +7,6 @@
   const BRIDGE_URL = '/.netlify/functions/bridge';
   const AI_URL = '/.netlify/functions/gamehub-ai';
   const DB_NAME = 'gamehub-2-db';
-  const PROFILE_KEY = 'gh2-profile-name';
   const STORE = {
     saved: 'gh2-saved', custom: 'gh2-custom', settings: 'gh2-settings',
     widgets: 'gh2-widgets', seconds: 'gh2-seconds', day: 'gh2-day',
@@ -465,75 +464,6 @@
     btn.disabled=false;toast('Your game was created and saved to My Games.');renderMyGames();
   }
 
-  // ---------- Local guest profile and account actions ----------
-  function currentProfileName() {
-    const name = (localStorage.getItem(PROFILE_KEY) || '').trim();
-    return name || 'Guest Player';
-  }
-  function renderAccount() {
-    const storedName = (localStorage.getItem(PROFILE_KEY) || '').trim();
-    const name = storedName || 'Guest Player';
-    const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0].toUpperCase()).join('') || 'GH';
-    $('#account-player-name').textContent = name;
-    $('#account-avatar').textContent = initials;
-    $('#account-shortcut').textContent = initials;
-    $('#account-profile-status').textContent = storedName
-      ? 'Local guest profile · player name saved in this browser'
-      : 'Guest profile · no named player is signed in';
-    $('#sign-out').disabled = !storedName;
-    $('#sign-out').title = storedName ? 'Return to the default Guest Player profile' : 'Already using the Guest Player profile';
-  }
-  function switchLocalPlayer() {
-    const current = currentProfileName();
-    const answer = window.prompt(
-      'Enter a display name for this local GameHub player (up to 24 characters). This is a local profile label, not an online account:',
-      current === 'Guest Player' ? '' : current
-    );
-    if (answer === null) return;
-    const name = answer.trim().replace(/\s+/g, ' ').slice(0, 24);
-    if (!name) {
-      toast('Please enter a player name.');
-      return;
-    }
-    localStorage.setItem(PROFILE_KEY, name);
-    renderAccount();
-    toast('Local player name updated. Your browser saves are unchanged.');
-  }
-  function signOutLocalPlayer() {
-    if (!localStorage.getItem(PROFILE_KEY)) {
-      toast('You are already using the Guest Player profile.');
-      return;
-    }
-    const ok = window.confirm('Return to the Guest Player profile? Your saved games, uploads, themes and screen-time data will remain on this browser.');
-    if (!ok) return;
-    localStorage.removeItem(PROFILE_KEY);
-    renderAccount();
-    toast('Signed out of the named local profile. Your local GameHub data was kept.');
-  }
-  async function deleteAllLocalGameHubData() {
-    const ok = window.confirm('Permanently delete ALL local GameHub data from this browser? This includes saved games, creations, uploaded files, wallpapers, themes, widgets, scores, achievements, screen time and the saved ESP32 pairing token. This cannot be undone. Export a backup first if you need one.');
-    if (!ok) return;
-    const second = window.confirm('Final confirmation: delete all GameHub data stored by this website in this browser?');
-    if (!second) return;
-
-    try {
-      for (const key of Object.keys(localStorage)) {
-        if (key.startsWith('gh2-')) localStorage.removeItem(key);
-      }
-    } catch (_) {}
-
-    if ('indexedDB' in window) {
-      await new Promise(resolve => {
-        try {
-          const request = indexedDB.deleteDatabase(DB_NAME);
-          request.onsuccess = request.onerror = request.onblocked = () => resolve();
-        } catch (_) { resolve(); }
-      });
-    }
-    toast('Local GameHub data deleted. Reloading…');
-    window.setTimeout(() => window.location.reload(), 500);
-  }
-
   // ---------- Widgets, themes and screen time ----------
   function renderWidgets(){const box=$('#widget-list');box.innerHTML=state.widgets.length?state.widgets.map((w,i)=>`<article class="note-widget"><button data-delete-widget="${i}" title="Delete">×</button><h3>${esc(w.title)}</h3><p>${esc(w.body)}</p></article>`).join(''):'<div class="empty-state">Your custom notes and goals will appear here.</div>';}
   function applySettings(){const s=state.settings;const fontMap={manrope:'Manrope,system-ui,sans-serif',system:'system-ui,-apple-system,BlinkMacSystemFont,sans-serif',trebuchet:'Trebuchet MS,Arial,sans-serif',arial:'Arial,Helvetica,sans-serif'};document.documentElement.style.setProperty('--accent',s.accent||'#8b7cff');document.documentElement.style.setProperty('--app-font',fontMap[s.font]||fontMap.manrope);$('#font-picker').value=s.font||'manrope';document.body.classList.toggle('light',!!s.light);document.body.classList.toggle('reduce-motion',!!s.reduceMotion);const backgrounds={aurora:'radial-gradient(ellipse at 78% -12%,rgba(91,78,190,.22),transparent 34%),#090d18',sunset:'linear-gradient(135deg,rgba(62,35,72,.35),rgba(9,13,24,.92)),linear-gradient(140deg,#9a555b,#242344 60%,#111a28)',grid:'linear-gradient(rgba(139,124,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(139,124,255,.045) 1px,transparent 1px),#090d18',space:'radial-gradient(circle at 78% 18%,rgba(225,133,204,.22),transparent 18%),radial-gradient(circle at 22% 70%,rgba(88,103,215,.22),transparent 25%),#090d18',mint:'radial-gradient(ellipse at 80% 0%,rgba(69,215,176,.19),transparent 32%),#090d18'};if(s.wallpaper!=='custom')document.body.style.background=backgrounds[s.wallpaper||'aurora'];$$('.wallpaper-choice').forEach(b=>b.classList.toggle('selected',b.dataset.wallpaper===(s.wallpaper||'aurora')));$('#accent-picker').value=s.accent||'#8b7cff';$('#theme-toggle').classList.toggle('on',!!s.light);$('#theme-toggle').setAttribute('aria-checked',String(!!s.light));$('#reduce-motion').classList.toggle('on',!!s.reduceMotion);$('#reduce-motion').setAttribute('aria-checked',String(!!s.reduceMotion));if(s.edition){$$('.edition-card').forEach(b=>b.classList.toggle('selected',b.dataset.edition===s.edition));}}
@@ -611,9 +541,6 @@
   $('#widget-form').addEventListener('submit',e=>{e.preventDefault();const title=$('#widget-title').value.trim(),body=$('#widget-body').value.trim();if(!title)return;state.widgets.unshift({title,body});saveJSON(STORE.widgets,state.widgets);e.target.reset();renderWidgets();toast('Widget added');});
   $('#accent-picker').addEventListener('input',e=>{state.settings.accent=e.target.value;saveJSON(STORE.settings,state.settings);applySettings();unlockAchievement('customizer');});
   $('#font-picker').addEventListener('change',e=>{state.settings.font=e.target.value;saveJSON(STORE.settings,state.settings);applySettings();unlockAchievement('customizer');toast('Interface font updated');});
-  $('#switch-account').addEventListener('click', switchLocalPlayer);
-  $('#sign-out').addEventListener('click', signOutLocalPlayer);
-  $('#delete-local-data').addEventListener('click', deleteAllLocalGameHubData);
   $('#theme-toggle').addEventListener('click',()=>{state.settings.light=!state.settings.light;saveJSON(STORE.settings,state.settings);applySettings();});
   $('#reduce-motion').addEventListener('click',()=>{state.settings.reduceMotion=!state.settings.reduceMotion;saveJSON(STORE.settings,state.settings);applySettings();});
   $('#screen-goal').addEventListener('change',updateScreenTimeUI);
@@ -626,6 +553,6 @@
   if('serial'in navigator)navigator.serial.addEventListener('disconnect',()=>{if(state.usbConnected)disconnectUSB();});
 
   // ---------- Initial page state ----------
-  ensureDailyChallenge();renderAccount();applySettings();applyCustomWallpaper();renderDashboard();renderStore();renderUploads();renderWidgets();updateCounts();updateBatteryUI();restoreChat();
+  ensureDailyChallenge();applySettings();applyCustomWallpaper();renderDashboard();renderStore();renderUploads();renderWidgets();updateCounts();updateBatteryUI();restoreChat();
   if(state.token)startBridgePolling();
 })();

@@ -22,20 +22,3 @@
 .progress-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}.progress-grid .panel-card{padding:18px}.progress-grid h3{margin:8px 0 6px;font-size:17px}.challenge-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px}.challenge-foot span{font-size:10px;color:var(--green);font-weight:800}.achievement-list,.leaderboard-list{display:grid;gap:8px;margin-top:12px}.achievement-row,.leaderboard-row{display:flex;align-items:center;gap:9px;background:rgba(110,130,170,.09);border:1px solid var(--line);padding:8px 10px;border-radius:10px}.achievement-row .trophy{font-size:17px}.achievement-row b,.leaderboard-row b{font-size:10px}.achievement-row small,.leaderboard-row small{display:block;font-size:8px;color:var(--muted);margin-top:2px}.achievement-locked{opacity:.45}.leaderboard-row .rank{font:700 11px 'DM Mono',monospace;color:var(--accent);width:20px}.leaderboard-row strong{margin-left:auto;font:700 11px 'DM Mono',monospace;color:var(--orange)}
 @media(max-width:950px){.progress-grid{grid-template-columns:1fr 1fr}.leaderboard-card{grid-column:1/-1}}
 @media(max-width:560px){.progress-grid{grid-template-columns:1fr}.leaderboard-card{grid-column:auto}.challenge-foot{align-items:flex-start;flex-direction:column}}
-
-
-/* Account tools: local guest profile, sign-out and data deletion. */
-.account-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,1fr);gap:14px;max-width:1050px}
-.account-panel,.account-actions-card,.account-danger-card{padding:22px}
-.account-panel{grid-column:1/-1;align-items:center;min-height:126px}
-.account-profile-copy h2{margin:6px 0 5px;font-size:21px}
-.account-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
-.account-tags span{font:8px 'DM Mono',monospace;letter-spacing:1px;color:#a8b7d1;border:1px solid var(--line);background:rgba(135,153,190,.08);padding:6px 8px;border-radius:20px}
-.account-actions-card h3,.account-danger-card h3{font-size:15px;margin:8px 0}
-.account-action-buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
-.account-disclaimer{font-size:9px;line-height:1.65;color:var(--muted);margin:14px 0 0}
-.account-danger-card{border-color:rgba(255,113,135,.22)}
-.account-danger-card .btn{margin-top:15px}
-#sign-out:disabled{opacity:.45;cursor:not-allowed;transform:none}
-@media(max-width:820px){.account-layout{grid-template-columns:1fr}.account-panel{grid-column:auto}}
-@media(max-width:520px){.account-panel{flex-direction:row;align-items:center}.account-action-buttons{flex-direction:column;align-items:stretch}.account-action-buttons .btn{width:100%}}
